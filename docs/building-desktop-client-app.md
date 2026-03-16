@@ -1,4 +1,4 @@
-# Building AFFiNE Desktop Client App
+# Building Ecodigital Desktop Client App
 
 > **Warning**:
 >
@@ -31,7 +31,7 @@ We will explain the steps in the following sections.
 
 ## Prerequisites
 
-Before you start building AFFiNE Desktop Client Application, please following the same steps in [BUILDING#Prerequisites](./BUILDING.md#prerequisites) to install Node.js and Rust.
+Before you start building Ecodigital Desktop Client Application, please following the same steps in [BUILDING#Prerequisites](./BUILDING.md#prerequisites) to install Node.js and Rust.
 
 On Windows, you must enable symbolic links this code repo. See [#### Windows](./BUILDING.md#Windows).
 
@@ -114,7 +114,7 @@ Once the build is complete, you can find the paths to the binaries in the termin
 
 ```
 Finished 2 bundles at:
-  › Artifacts available at: <affine-repo>/packages/frontend/apps/electron/out/canary/make
+  › Artifacts available at: <ecodigital-repo>/packages/frontend/apps/electron/out/canary/make
 ```
 
 ## CI

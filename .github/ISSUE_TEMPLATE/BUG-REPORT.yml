@@ -21,7 +21,7 @@ body:
     id: distribution
     attributes:
       label: Distribution version
-      description: What distribution of AFFiNE are you using?
+      description: What distribution of Ecodigital are you using?
       options:
         - macOS x64 (Intel)
         - macOS ARM 64 (Apple Silicon)
@@ -29,15 +29,15 @@ body:
         - Linux
         - Web (https://app.ecodigital.app)
         - Beta Web (https://insider.ecodigital.app)
-        - Canary Web (https://affine.fail)
+        - Canary Web (https://canary.ecodigital.app)
     validations:
       required: true
   - type: input
     id: version
     attributes:
       label: App Version
-      description: What version of AFFiNE are you using?
-      placeholder: (You can find AFFiNE version in [About AFFiNE] setting panel)
+      description: What version of Ecodigital are you using?
+      placeholder: (You can find Ecodigital version in [About Ecodigital] setting panel)
   - type: dropdown
     id: browsers
     attributes:
@@ -61,7 +61,7 @@ body:
     id: selfhost-version
     attributes:
       label: Self-hosting Version
-      description: What version of AFFiNE are you selfhosting?
+      description: What version of Ecodigital are you selfhosting?
   - type: textarea
     id: logs
     attributes:
