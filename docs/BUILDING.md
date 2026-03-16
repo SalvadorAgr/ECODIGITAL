@@ -1,4 +1,4 @@
-# Construyendo ECODIGITAL Web
+# Construyendo Ecodigital Web
 
 > **Nota:** Para construir la app de escritorio, consulta [building-desktop-client-app.md](./building-desktop-client-app.md).
 
@@ -11,19 +11,13 @@
 
 ## Requisitos
 
-ECODIGITAL requiere toolchains de **Node.js** y **Rust**.
+Ecodigital requiere toolchains de **Node.js** y **Rust**.
 
 ### Instalar Node.js
 
-Se recomienda usar la versión LTS (Long-Term Support) de Node.js.
+Se recomienda usar la versión LTS de Node.js. Descarga desde [nodejs.org](https://nodejs.org/en/download).
 
-#### Opción 1: Instalación manual
-
-Descarga desde [nodejs.org](https://nodejs.org/en/download).
-
-#### Opción 2: Usar un gestor de versiones
-
-Instala [fnm](https://github.com/Schniz/fnm) y ejecuta:
+O instala [fnm](https://github.com/Schniz/fnm) y ejecuta:
 
 ```sh
 fnm use
@@ -50,7 +44,7 @@ yarn install
 ### Clonar el repositorio
 
 ```sh
-git clone https://github.com/tu-usuario/ECODIGITAL
+git clone https://github.com/salvadoraguilar/ECODIGITAL
 ```
 
 #### En Windows
@@ -59,7 +53,7 @@ Activa el modo desarrollador y ejecuta con privilegios de administrador:
 
 ```sh
 git config --global core.symlinks true
-git clone https://github.com/tu-usuario/ECODIGITAL
+git clone https://github.com/salvadoraguilar/ECODIGITAL
 ```
 
 ### Compilar dependencias nativas
@@ -75,8 +69,6 @@ yarn affine @affine/server-native build
 ```
 
 ## Pruebas
-
-Se recomienda agregar casos de prueba al contribuir nuevas funcionalidades.
 
 Usamos [Playwright](https://playwright.dev/) para pruebas E2E y [vitest](https://vitest.dev/) para pruebas unitarias.
 
@@ -99,3 +91,7 @@ yarn test
 ```shell
 yarn workspace @affine-test/affine-local e2e
 ```
+
+---
+
+© 2026 dogma.black — Ecodigital

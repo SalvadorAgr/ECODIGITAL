@@ -1,8 +1,10 @@
-# Tutorial para contribuidores
+# Tutorial para contribuidores — Ecodigital
+
+Desarrollado por **dogma.black** · [dogma.black](https://dogma.black)
 
 ## Introducción
 
-Este tutorial te guiará a través del código fuente de ECODIGITAL. Está dirigido a nuevos contribuidores.
+Este tutorial te guiará a través del código fuente de Ecodigital. Está dirigido a nuevos contribuidores.
 
 ## Compilar el proyecto
 
@@ -19,20 +21,18 @@ El código fuente está organizado de la siguiente manera:
 - `tools/` — Herramientas para desarrollo y CI.
 - `tests/` — Pruebas entre diferentes librerías, incluyendo pruebas E2E e integración.
 
-### `@affine/env`
+### Entorno de configuración (`@affine/env`)
 
-Configuración del entorno para el cliente. Incluye constantes globales, detección del navegador y sistema.
-
-Este paquete debe importarse al principio del punto de entrada.
+Incluye constantes globales, detección del navegador y sistema. Debe importarse al principio del punto de entrada.
 
 #### Principios de diseño
 
 - Cada plugin de workspace tiene su propio estado y está aislado de los demás.
-- El plugin de workspace es responsable de su propio manejo de estado, persistencia, sincronización, respaldo y recuperación de datos.
+- El plugin es responsable de su propio manejo de estado, persistencia y sincronización.
 
-### `@affine/component`
+### Librería de componentes (`@affine/component`)
 
-Librería de componentes UI reutilizables. Cada componente debe ser autónomo y usable en cualquier contexto.
+Componentes UI reutilizables. Cada componente debe ser autónomo y usable en cualquier contexto.
 
 ## Ambientes de depuración
 
@@ -45,3 +45,7 @@ yarn dev
 ### Electron (escritorio)
 
 Consulta [building-desktop-client-app.md](../building-desktop-client-app.md).
+
+---
+
+© 2026 dogma.black — Ecodigital

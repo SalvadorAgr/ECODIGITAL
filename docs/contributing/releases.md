@@ -1,8 +1,10 @@
-# Proceso de Release — ECODIGITAL
+# Proceso de Release — Ecodigital
+
+Proyecto desarrollado por **dogma.black** · [dogma.black](https://dogma.black)
 
 ## ¿Quién puede hacer un release?
 
-El equipo de ECODIGITAL gestiona los releases. Se requiere acceso de commit al repositorio y acceso a GitHub Actions.
+El equipo de dogma.black gestiona los releases de Ecodigital. Se requiere acceso de commit al repositorio y acceso a GitHub Actions.
 
 ## Cómo hacer un release
 
@@ -30,11 +32,15 @@ Selecciona la rama correspondiente, completa el formulario y haz clic en **Run w
 
 ### 4. Publicar el release
 
-Una vez completada la acción, un borrador del release aparecerá en la sección **Releases** del repositorio.
+Una vez completada la acción, un borrador aparecerá en la sección **Releases** del repositorio.
 
 Edita las notas del release si es necesario y publícalo.
 
 Asegúrate de que:
 
-- El tag y título del release coincidan con la versión en `package.json`.
+- El tag y título coincidan con la versión en `package.json`.
 - El release apunte al commit que acabas de hacer.
+
+---
+
+© 2026 dogma.black — Ecodigital

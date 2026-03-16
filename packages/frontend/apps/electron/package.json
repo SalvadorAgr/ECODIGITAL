@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.26.3",
   "main": "./dist/main.js",
-  "author": "ecodigital",
+  "author": "dogma.black",
   "repository": {
     "url": "https://github.com/salvadoraguilar/ECODIGITAL",
     "type": "git"
   },
-  "description": "ECODIGITAL Desktop App",
+  "description": "Ecodigital Desktop App by dogma.black",
   "homepage": "https://github.com/salvadoraguilar/ECODIGITAL",
   "exports": {
     "./helper/exposed": "./src/helper/exposed.ts",
