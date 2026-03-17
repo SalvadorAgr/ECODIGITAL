@@ -19,7 +19,6 @@ import { useI18n } from '@affine/i18n';
 import { track } from '@affine/track';
 import type { Store } from '@blocksuite/affine/store';
 import {
-  AiIcon,
   AiOutlineIcon,
   AllDocsIcon,
   AutoTidyUpIcon,
@@ -49,6 +48,8 @@ import {
   NavigationPanelOrganize,
   NavigationPanelTags,
 } from '../../desktop/components/navigation-panel';
+import { AppSidebarService } from '../../modules/app-sidebar';
+import { SidebarSwitch } from '../../modules/app-sidebar/views/sidebar-header';
 import { WorkbenchService } from '../../modules/workbench';
 import { WorkspaceNavigator } from '../workspace-selector';
 import {
@@ -65,7 +66,6 @@ import { SidebarAudioPlayer } from './sidebar-audio-player';
 import { TemplateDocEntrance } from './template-doc-entrance';
 import { TrashButton } from './trash-button';
 import { UpdaterButton } from './updater-button';
-import UserInfo from './user-info';
 
 export type RootAppSidebarProps = {
   isPublicWorkspace: boolean;
@@ -174,6 +174,10 @@ export const RootAppSidebar = memo((): ReactElement => {
   const t = useI18n();
   const workspaceDialogService = useService(WorkspaceDialogService);
   const workbench = workbenchService.workbench;
+  const appSidebar = useService(AppSidebarService).sidebar;
+  const appSidebarOpen = useLiveData(appSidebar.open$);
+  const appSidebarHovering = useLiveData(appSidebar.hovering$);
+  const showSidebarSwitch = appSidebarOpen || appSidebarHovering;
   const workspaceSelectorOpen = useLiveData(workbench.workspaceSelectorOpen$);
   const onOpenQuickSearchModal = useCallback(() => {
     cMDKQuickSearchService.toggle();
@@ -240,7 +244,7 @@ export const RootAppSidebar = memo((): ReactElement => {
               dense
             />
           </div>
-          <UserInfo />
+          <SidebarSwitch show={showSidebarSwitch} />
         </div>
         <div className={quickSearchAndNewPage}>
           <QuickSearchInput
@@ -255,15 +259,6 @@ export const RootAppSidebar = memo((): ReactElement => {
         <AppSidebarJournalButton />
         {sessionStatus === 'authenticated' && <NotificationButton />}
         <AIChatButton />
-        <MenuItem
-          data-testid="slider-bar-workspace-setting-button"
-          icon={<SettingsIcon />}
-          onClick={onOpenSettingModal}
-        >
-          <span data-testid="settings-modal-trigger">
-            {t['com.affine.settingSidebar.title']()}
-          </span>
-        </MenuItem>
       </SidebarContainer>
       <SidebarScrollableContainer>
         {/* EcoDigital fixed modules (El Consultorio) - add only, grouped and native (no replacement). */}
@@ -272,12 +267,15 @@ export const RootAppSidebar = memo((): ReactElement => {
           title={'System'}
           contentStyle={{ padding: '6px 8px 0 8px' }}
         >
-          <SidebarModuleLink
-            testId="slider-bar-intelligence-button"
-            icon={<AiIcon />}
-            to={'/intelligence'}
-            label={'Intelligence'}
-          />
+          <MenuItem
+            data-testid="slider-bar-workspace-setting-button"
+            icon={<SettingsIcon />}
+            onClick={onOpenSettingModal}
+          >
+            <span data-testid="settings-modal-trigger">
+              {t['com.affine.settingSidebar.title']()}
+            </span>
+          </MenuItem>
           <SidebarModuleLink
             testId="slider-bar-cloud-button"
             icon={<CloudWorkspaceIcon />}

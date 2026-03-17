@@ -28,7 +28,6 @@ import {
   resizeHandleShortcutStyle,
   sidebarFloatMaskStyle,
 } from './index.css';
-import { SidebarHeader } from './sidebar-header';
 
 export type History = {
   stack: string[];
@@ -176,9 +175,6 @@ export function AppSidebar({ children }: PropsWithChildren) {
         data-is-electron={BUILD_CONFIG.isElectron}
       >
         <nav className={navStyle} data-testid="app-sidebar">
-          {!BUILD_CONFIG.isElectron && sidebarState !== 'floating' && (
-            <SidebarHeader />
-          )}
           <div className={navBodyStyle} data-testid="sliderBar-inner">
             {children}
           </div>

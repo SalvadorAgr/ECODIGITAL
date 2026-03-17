@@ -62,13 +62,15 @@ const DesktopLayout = ({
 }: PropsWithChildren<{ fallback?: boolean }>) => {
   const workspaceService = useServiceOptional(WorkspaceService);
   const isInWorkspace = !!workspaceService;
+  const appSidebarService = useService(AppSidebarService).sidebar;
+  const leftSidebarOpen = useLiveData(appSidebarService.open$);
   return (
     <div className={styles.desktopAppViewContainer}>
       <div className={styles.desktopTabsHeader}>
         <AppTabsHeader
           left={
             <>
-              {isInWorkspace && <SidebarSwitch show />}
+              {isInWorkspace && <SidebarSwitch show={!leftSidebarOpen} />}
               {isInWorkspace && <NavigationButtons />}
             </>
           }

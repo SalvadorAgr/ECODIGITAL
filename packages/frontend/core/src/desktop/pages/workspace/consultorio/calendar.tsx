@@ -1,5 +1,10 @@
 import { ConsultorioStubPage } from './consultorio-stub-page';
 
 export const Component = () => {
-  return <ConsultorioStubPage title="Calendario" />;
+  return (
+    <ConsultorioStubPage
+      title="Calendario"
+      suggestedTemplates={['Monthly Calendar', 'Gantt Chart']}
+    />
+  );
 };

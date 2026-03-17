@@ -75,7 +75,6 @@ export const navHeaderStyle = style({
 
 export const navBodyStyle = style({
   flex: '1 1 auto',
-  height: 'calc(100% - 52px)',
   display: 'flex',
   flexDirection: 'column',
   rowGap: '4px',

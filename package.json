@@ -21,6 +21,7 @@
     "affine": "r affine.ts",
     "af": "r affine.ts",
     "dev": "yarn affine dev",
+    "dev:full": "node scripts/dev-full.mjs",
     "build": "yarn affine build",
     "lint:eslint": "cross-env NODE_OPTIONS=\"--max-old-space-size=16384\" eslint --report-unused-disable-directives-severity=off . --cache",
     "lint:eslint:fix": "yarn lint:eslint --fix --fix-type problem,suggestion,layout",

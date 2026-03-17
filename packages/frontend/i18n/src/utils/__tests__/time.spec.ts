@@ -1,12 +1,16 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 
 import { getOrCreateI18n, I18n } from '../../';
 import { i18nTime } from '../time';
 
 // Intl api is not available in github action, skip the test
 describe('humanTime', () => {
-  test('absolute', async () => {
+  beforeEach(async () => {
     getOrCreateI18n();
+    await I18n.changeLanguage('en');
+  });
+
+  test('absolute', async () => {
     expect(i18nTime('2024-10-10 13:30:28')).toBe('Oct 10, 2024, 1:30:28 PM');
     expect(
       i18nTime('2024-10-10 13:30:28', {
@@ -48,7 +52,6 @@ describe('humanTime', () => {
   });
 
   test('relative', async () => {
-    getOrCreateI18n();
     expect(
       i18nTime('2024-10-10 13:30:28.005', {
         now: '2024-10-10 13:30:30',
@@ -148,7 +151,6 @@ describe('humanTime', () => {
   });
 
   test('relative - accuracy', async () => {
-    getOrCreateI18n();
     expect(
       i18nTime('2024-10-10 13:30:28.005', {
         now: '2024-10-10 13:30:30',
@@ -224,7 +226,6 @@ describe('humanTime', () => {
   });
 
   test('relative - disable yesterdayAndTomorrow', async () => {
-    getOrCreateI18n();
     expect(
       i18nTime('2024-10-9 13:30:30', {
         now: '2024-10-10 13:30:30',
@@ -244,7 +245,6 @@ describe('humanTime', () => {
   });
 
   test('relative - weekday', async () => {
-    getOrCreateI18n();
     expect(
       i18nTime('2024-10-9 13:30:30', {
         now: '2024-10-10 13:30:30',
@@ -302,7 +302,6 @@ describe('humanTime', () => {
   });
 
   test('mix relative and absolute', async () => {
-    getOrCreateI18n();
     expect(
       i18nTime('2024-10-9 14:30:30', {
         now: '2024-10-10 13:30:30',
@@ -349,7 +348,6 @@ describe('humanTime', () => {
   });
 
   test('chinese', async () => {
-    getOrCreateI18n();
     await I18n.changeLanguage('zh-Hans');
     expect(i18nTime('2024-10-10 13:30:28.005')).toBe('2024年10月10日 13:30:28');
     expect(
@@ -398,7 +396,6 @@ describe('humanTime', () => {
   });
 
   test('invalid time', () => {
-    getOrCreateI18n();
     expect(i18nTime('foobar')).toBe('');
   });
 });

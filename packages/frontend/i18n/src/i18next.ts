@@ -9,7 +9,7 @@ import { SUPPORTED_LANGUAGES } from './resources';
 
 const logger = new DebugLogger('i18n');
 
-const defaultLng: Language = 'en';
+const defaultLng: Language = 'es';
 
 let _instance: i18n | null = null;
 export const getOrCreateI18n = (): i18n => {
@@ -40,8 +40,8 @@ export const getOrCreateI18n = (): i18n => {
       .init({
         lng: defaultLng,
         fallbackLng: code => {
-          // always fallback to english
-          const fallbacks: string[] = [defaultLng];
+          // fallback to default language, then english
+          const fallbacks: string[] = [defaultLng, 'en'];
           const langPart = code.split('-')[0];
 
           // fallback xx-YY to xx, e.g. es-AR to es
@@ -55,15 +55,14 @@ export const getOrCreateI18n = (): i18n => {
             fallbacks.unshift(langPart);
           }
 
-          return fallbacks;
+          // de-dup while preserving order
+          return [...new Set(fallbacks)];
         },
         supportedLngs: Object.keys(SUPPORTED_LANGUAGES),
         debug: false,
         partialBundledLanguages: true,
         resources: {
-          [defaultLng]: {
-            translation: SUPPORTED_LANGUAGES[defaultLng].resource,
-          },
+          en: { translation: SUPPORTED_LANGUAGES.en.resource },
         },
         interpolation: {
           escapeValue: false, // not needed for react as it escapes by default

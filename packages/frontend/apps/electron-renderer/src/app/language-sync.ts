@@ -9,7 +9,7 @@ export const DesktopLanguageSync = () => {
   const handler = useService(DesktopApiService).api.handler;
 
   useEffect(() => {
-    handler.i18n.changeLanguage(currentLanguage ?? 'en').catch(err => {
+    handler.i18n.changeLanguage(currentLanguage ?? 'es').catch(err => {
       console.error(err);
     });
   }, [currentLanguage, handler]);
