@@ -32,7 +32,7 @@ Server also requires native packages to be built, you can build them by running 
 
 ```sh
 # build native
-yarn affine @affine/server-native build
+yarn ecodigital @ecodigital/server-native build
 ```
 
 ## Prepare dev environment
@@ -42,14 +42,14 @@ yarn affine @affine/server-native build
 cp packages/backend/server/.env.example packages/backend/server/.env
 
 # everytime there are new migrations, init command should runned again
-yarn affine server init
+yarn ecodigital server init
 ```
 
 ## Start server
 
 ```sh
 # at project root
-yarn affine server dev
+yarn ecodigital server dev
 ```
 
 when server started, it will created a default user and a pro user for testing:
@@ -97,11 +97,11 @@ Ahora deberías poder comenzar a desarrollar ECODIGITAL con el servidor habilita
 
 ```sh
 # available at http://localhost:5555
-yarn affine server prisma studio
+yarn ecodigital server prisma studio
 ```
 
 ### Seed the db
 
 ```sh
-yarn affine server seed -h
+yarn ecodigital server seed -h
 ```

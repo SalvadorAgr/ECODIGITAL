@@ -241,10 +241,6 @@ export const AFFiNEWorkspaceList = ({
 
   const serversService = useService(ServersService);
   const servers = useLiveData(serversService.servers$);
-  const affineCloudServer = useMemo(
-    () => servers.find(s => s.id === 'affine-cloud') as Server,
-    [servers]
-  );
   const selfhostServers = useMemo(
     () => servers.filter(s => s.id !== 'affine-cloud'),
     [servers]
@@ -288,24 +284,6 @@ export const AFFiNEWorkspaceList = ({
 
   return (
     <>
-      {/* 1. affine-cloud */}
-      <FrameworkScope
-        key={affineCloudServer.id}
-        scope={affineCloudServer.scope}
-      >
-        <CloudWorkSpaceList
-          server={affineCloudServer}
-          workspaces={cloudWorkspaces.filter(
-            ({ flavour }) => flavour === affineCloudServer.id
-          )}
-          onClickWorkspace={handleClickWorkspace}
-        />
-      </FrameworkScope>
-      {(localWorkspaces.length > 0 || selfhostServers.length > 0) && (
-        <Divider size="thinner" className={styles.serverDivider} />
-      )}
-
-      {/* 2. local */}
       <LocalWorkspaces
         workspaces={localWorkspaces}
         onClickWorkspace={handleClickWorkspace}
@@ -313,11 +291,10 @@ export const AFFiNEWorkspaceList = ({
           showEnableCloudButton ? onClickEnableCloud : undefined
         }
       />
-      {selfhostServers.length > 0 && (
+      {localWorkspaces.length > 0 && selfhostServers.length > 0 && (
         <Divider size="thinner" className={styles.serverDivider} />
       )}
 
-      {/* 3. selfhost */}
       {selfhostServers.map((server, index) => (
         <FrameworkScope key={server.id} scope={server.scope}>
           <CloudWorkSpaceList

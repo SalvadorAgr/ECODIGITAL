@@ -21,7 +21,7 @@ El código fuente está organizado de la siguiente manera:
 - `tools/` — Herramientas para desarrollo y CI.
 - `tests/` — Pruebas entre diferentes librerías, incluyendo pruebas E2E e integración.
 
-### Entorno de configuración (`@affine/env`)
+### Entorno de configuración (`@ecodigital/env`)
 
 Incluye constantes globales, detección del navegador y sistema. Debe importarse al principio del punto de entrada.
 
@@ -30,7 +30,7 @@ Incluye constantes globales, detección del navegador y sistema. Debe importarse
 - Cada plugin de workspace tiene su propio estado y está aislado de los demás.
 - El plugin es responsable de su propio manejo de estado, persistencia y sincronización.
 
-### Librería de componentes (`@affine/component`)
+### Librería de componentes (`@ecodigital/component`)
 
 Componentes UI reutilizables. Cada componente debe ser autónomo y usable en cualquier contexto.
 

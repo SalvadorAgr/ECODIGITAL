@@ -6,7 +6,6 @@ import { type WorkspaceMetadata } from '@affine/core/modules/workspace';
 import { ServerFeature } from '@affine/graphql';
 import { useI18n } from '@affine/i18n';
 import { track } from '@affine/track';
-import { Logo1Icon } from '@blocksuite/icons/rc';
 import { useLiveData, useService } from '@toeverything/infra';
 import { useCallback } from 'react';
 
@@ -32,7 +31,7 @@ export const SignInItem = () => {
     >
       <div className={styles.signInWrapper}>
         <div className={styles.iconContainer}>
-          <Logo1Icon />
+          <img src="/brand-logo.png" alt="Ecodigital" width={20} height={20} />
         </div>
 
         <div className={styles.signInTextContainer}>

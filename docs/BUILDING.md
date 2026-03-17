@@ -44,7 +44,7 @@ yarn install
 ### Clonar el repositorio
 
 ```sh
-git clone https://github.com/salvadoraguilar/ECODIGITAL
+git clone https://github.com/dogmablack/ecodigital
 ```
 
 #### En Windows
@@ -53,19 +53,19 @@ Activa el modo desarrollador y ejecuta con privilegios de administrador:
 
 ```sh
 git config --global core.symlinks true
-git clone https://github.com/salvadoraguilar/ECODIGITAL
+git clone https://github.com/dogmablack/ecodigital
 ```
 
 ### Compilar dependencias nativas
 
 ```sh
-yarn affine @affine/native build
+yarn ecodigital @ecodigital/native build
 ```
 
 ### Compilar dependencias del servidor
 
 ```sh
-yarn affine @affine/server-native build
+yarn ecodigital @ecodigital/server-native build
 ```
 
 ## Pruebas
@@ -89,7 +89,7 @@ yarn test
 ### Prueba E2E
 
 ```shell
-yarn workspace @affine-test/affine-local e2e
+yarn workspace @ecodigital-test/ecodigital-local e2e
 ```
 
 ---

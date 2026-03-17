@@ -1,6 +1,5 @@
 import { Button } from '@affine/component/ui/button';
 import { useI18n } from '@affine/i18n';
-import { Logo1Icon } from '@blocksuite/icons/rc';
 import { useTheme } from 'next-themes';
 import { type ReactNode, useCallback } from 'react';
 
@@ -35,7 +34,12 @@ export const AffineOtherPageLayout = ({
       ) : (
         <div className={styles.topNav}>
           <a href="/" rel="noreferrer" className={styles.affineLogo}>
-            <Logo1Icon width={24} height={24} />
+            <img
+              src="/brand-logo.png"
+              alt="Ecodigital"
+              width={24}
+              height={24}
+            />
           </a>
 
           <DesktopNavbar />

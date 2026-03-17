@@ -1,6 +1,6 @@
 import { IntegrationTypeIcon } from '@affine/core/modules/integration';
 import type { I18nString } from '@affine/i18n';
-import { Logo1Icon, TodayIcon } from '@blocksuite/icons/rc';
+import { TodayIcon } from '@blocksuite/icons/rc';
 import type { ReactNode } from 'react';
 
 import { CalendarSettingPanel } from './calendar/setting-panel';
@@ -51,7 +51,7 @@ const INTEGRATION_LIST = [
     id: 'web-clipper' as const,
     name: 'com.affine.integration.web-clipper.name',
     desc: 'com.affine.integration.web-clipper.desc',
-    icon: <Logo1Icon />,
+    icon: <img src="/brand-logo.png" alt="Ecodigital" width={16} height={16} />,
     link: 'https://chromewebstore.google.com/detail/affine-web-clipper/mpbbkmbdpleomiogkbkkpfoljjpahmoi',
   },
 ] satisfies (IntegrationCard | false)[];

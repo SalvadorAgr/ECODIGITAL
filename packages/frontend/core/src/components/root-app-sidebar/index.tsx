@@ -237,7 +237,6 @@ export const RootAppSidebar = memo((): ReactElement => {
         <div className={workspaceAndUserWrapper}>
           <div className={workspaceWrapper}>
             <WorkspaceNavigator
-              showEnableCloudButton
               showSyncStatus
               open={workspaceSelectorOpen}
               onOpenChange={onWorkspaceSelectorOpenChange}
@@ -262,40 +261,6 @@ export const RootAppSidebar = memo((): ReactElement => {
       </SidebarContainer>
       <SidebarScrollableContainer>
         {/* EcoDigital fixed modules (El Consultorio) - add only, grouped and native (no replacement). */}
-        <CollapsibleSection
-          path={['consultorio', 'system']}
-          title={'System'}
-          contentStyle={{ padding: '6px 8px 0 8px' }}
-        >
-          <MenuItem
-            data-testid="slider-bar-workspace-setting-button"
-            icon={<SettingsIcon />}
-            onClick={onOpenSettingModal}
-          >
-            <span data-testid="settings-modal-trigger">
-              {t['com.affine.settingSidebar.title']()}
-            </span>
-          </MenuItem>
-          <SidebarModuleLink
-            testId="slider-bar-cloud-button"
-            icon={<CloudWorkspaceIcon />}
-            to={'/cloud'}
-            label={'Cloud'}
-          />
-          <SidebarModuleLink
-            testId="slider-bar-files-button"
-            icon={<FolderPanelIcon />}
-            to={'/files'}
-            label={'Archivos'}
-          />
-          <SidebarModuleLink
-            testId="slider-bar-records-button"
-            icon={<HistoryIcon />}
-            to={'/admin/logs'}
-            label={'Registros'}
-          />
-        </CollapsibleSection>
-
         <CollapsibleSection
           path={['consultorio', 'operations']}
           title={'Operations'}
@@ -357,6 +322,40 @@ export const RootAppSidebar = memo((): ReactElement => {
         <NavigationPanelMigrationFavorites />
         <NavigationPanelTags />
         <NavigationPanelCollections />
+        <CollapsibleSection
+          path={['consultorio', 'system']}
+          title={'System'}
+          contentStyle={{ padding: '6px 8px 0 8px' }}
+        >
+          <MenuItem
+            data-testid="slider-bar-workspace-setting-button"
+            icon={<SettingsIcon />}
+            onClick={onOpenSettingModal}
+            style={{ paddingTop: 15, paddingBottom: 15 }}
+          >
+            <span data-testid="settings-modal-trigger">
+              {t['com.affine.settingSidebar.title']()}
+            </span>
+          </MenuItem>
+          <SidebarModuleLink
+            testId="slider-bar-cloud-button"
+            icon={<CloudWorkspaceIcon />}
+            to={'/cloud'}
+            label={'Cloud'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-files-button"
+            icon={<FolderPanelIcon />}
+            to={'/files'}
+            label={'Archivos'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-records-button"
+            icon={<HistoryIcon />}
+            to={'/admin/logs'}
+            label={'Registros'}
+          />
+        </CollapsibleSection>
         <CollapsibleSection
           path={['others']}
           title={t['com.affine.rootAppSidebar.others']()}
