@@ -222,9 +222,7 @@ const MeetingsSettingsMain = () => {
               1: (
                 <a
                   className={styles.link}
-                  href="https://discord.com/channels/959027316334407691/1358384103925350542"
-                  target="_blank"
-                  rel="noreferrer"
+                  href="/ayuda"
                 />
               ),
             }}

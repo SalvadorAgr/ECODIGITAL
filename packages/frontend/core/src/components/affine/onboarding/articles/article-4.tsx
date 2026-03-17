@@ -8,7 +8,7 @@ import { BlogLink } from './blog-link';
 
 export const article4: Array<OnboardingBlockOption> = [
   {
-    children: <h1>Más es Diferente con Ecodigital</h1>,
+    children: <h1>More Is Different</h1>,
     offset: { x: -430, y: 0 },
   },
   {
@@ -17,30 +17,37 @@ export const article4: Array<OnboardingBlockOption> = [
     children: (
       <>
         <h2>
-          Simetría rota y la naturaleza de la estructura jerárquica de la ciencia
+          Broken symmetry and the nature of the hierarchical structure of
+          science
         </h2>
         <img draggable={false} width="100%" src={bookmark1png} />
         <p>
-          La hipótesis reduccionista puede seguir siendo un tema de controversia,
-          pero entre la gran mayoría de los científicos activos creo que se acepta
-          sin cuestionamientos. El funcionamiento de nuestras mentes y cuerpos,
-          y de toda la materia animada o inanimada, se asume que está controlado
-          por el mismo conjunto de leyes fundamentales.
+          The reductionist hypothesis may still be a topic for controversy among
+          philosophers, but among the great majority of active scientists I
+          think it is accepted without questions. The workings of our minds and
+          bodies, and of all the animate or inanimate matter of which we have
+          any detailed knowledge, are assumed to be controlled by the same set
+          of fundamental laws, which except under certain extreme conditions we
+          feel we know pretty well.
         </p>
         <p>
-          Parece inevitable pasar a lo que parece ser un corolario obvio del
-          reduccionismo: que si todo obedece a las mismas leyes fundamentales,
-          entonces los únicos científicos que están estudiando algo realmente
-          fundamental son aquellos que trabajan en esas leyes. Ecodigital se basa
-          en estos principios para ofrecer una plataforma sólida y coherente.
+          It seems inevitable to go on uncritically to what appears at first
+          sight to be an obvious corollary of reductionism: that if everything
+          obeys the same fundamental laws, then the only scientists who are
+          studying anything really fundamental are those who are working on
+          those laws. In practice, that amounts to some astrophysicists, some
+          elementary particle physicists, some logicians and other
+          mathematicians, and few others. This point of view, which it is the
+          main purpose of this article to oppose, is expressed in a rather
+          well-known passage by Weisskopf (1):
         </p>
       </>
     ),
     sub: {
       children: (
         <ShadowSticker width={300}>
-          La hipótesis reduccionista es aceptada por la mayoría de los científicos,
-          enfocándose en las leyes fundamentales.
+          Reductionist hypothesis accepted by most scientists, fundamental laws
+          in focus.
         </ShadowSticker>
       ),
       edgelessOnly: true,
@@ -64,19 +71,29 @@ export const article4: Array<OnboardingBlockOption> = [
     offset: { x: 500, y: -490 },
     children: (
       <p>
-        Mirando el desarrollo de la ciencia en el siglo XX, se pueden distinguir
-        dos tendencias: la investigación “intensiva” y la “extensiva”. En resumen:
-        la investigación intensiva busca las leyes fundamentales, mientras que la
-        extensiva busca la explicación de los fenómenos en términos de esas leyes.
-        Ecodigital integra ambos enfoques para proporcionar una herramienta que
-        no solo es potente en su base, sino también versátil en su aplicación diaria.
+        Looking at the development of science in the Twentieth Century one can
+        distinguish two trends, which I will call “intensive” and “extensive”
+        research, lacking a better terminology. In short: intensive research
+        goes for the fundamental laws, extensive research goes for the
+        explanation of phenomena in terms of known fundamental laws, As always,
+        distinctions of this kind are not unambiguous, but they are clear in
+        most cases. Solid state physics plasma physics, and perhaps also biology
+        are extensive. High energy physics and a good part of nuclear physics
+        are intensive research going on than extensive. Once new fundamental
+        laws are discovered, a large and ever increasing activity begins in
+        order to apply the discoveries to hitherto unexplained phenomena. Thus,
+        there are two dimensions to basic research. The frontier of science
+        extends all along a long line from the newest and most modern intensive
+        research, over the extensive research recently spawned by the intensive
+        research of yesterday, to the broad and well developed web of extensive
+        research activities based on intensive research of past decades
       </p>
     ),
     sub: {
       children: (
         <ShadowSticker width={300}>
-          Ciencia del siglo XX: investigación intensiva vs. extensiva e impacto
-          de las leyes fundamentales.
+          Twentieth Century science: intensive vs. extensive research,
+          fundamental laws&apos; impact.
         </ShadowSticker>
       ),
       position: {},
@@ -100,24 +117,30 @@ export const article4: Array<OnboardingBlockOption> = [
     children: (
       <>
         <p>
-          La eficacia de este mensaje puede indicarse por el hecho de que la
-          capacidad de reducir todo a leyes fundamentales simples no implica la
-          capacidad de reconstruir el universo a partir de ellas. De hecho, cuanto
-          más nos dicen los físicos sobre las leyes fundamentales, menos relevancia
-          parecen tener para los problemas reales de la ciencia y la sociedad.
+          The effectiveness of this message may be indicated by the face that I
+          heard it quoted recently by a leader in the field of materials
+          science, who urged the participants at a meeting dedicated to
+          “fundamental problems in condensed matter physics” to accept that
+          there were few or no such problems and that nothing was left but
+          extensive science, which he seemed to equate with device engineering.
         </p>
         <p>
-          Ecodigital aborda esta brecha proporcionando una interfaz que traduce
-          la complejidad técnica en una experiencia de usuario intuitiva y
-          significativa para el profesional de la salud.
+          The main fallacy in this kind of thinking is that the reductionist
+          hypothesis does not by any means imply a “constructions” one: The
+          ability to reduce everything to simple fundamental laws does not imply
+          the ability to start from those laws and reconstruct the universe. In
+          fact, the more the elementary particle physicists tell us about the
+          nature of the fundamental laws, the less relevance they seem to have
+          to the very real problems of the rest of science much less to those of
+          society.
         </p>
       </>
     ),
     sub: {
       children: (
         <ShadowSticker width={336}>
-          Malentendido: El reduccionismo no significa reconstruir fenómenos
-          complejos a partir de lo fundamental.
+          Misunderstanding: Reductionism doesn&apos;t mean reconstructing
+          complex phenomena from fundamentals.
         </ShadowSticker>
       ),
       position: {},
@@ -141,15 +164,22 @@ export const article4: Array<OnboardingBlockOption> = [
     children: (
       <>
         <p>
-          La hipótesis construccionista se rompe ante las dificultades de escala
-          y complejidad. El comportamiento de agregados grandes y complejos no se
-          entiende simplemente extrapolando; aparecen propiedades nuevas que
-          requieren investigación fundamental.
+          The constructionist hypothesis breaks down when confronted with the
+          twin difficulties of scale and complexity. The behavior of large and
+          complex aggregates of elementary particles, it turns out, is not to be
+          understood in terms of a simple extrapolation entirely new properties
+          appear, and the understanding of the new behaviors requires research
+          which I think is as fundamental in its nature as any other. That is,
+          it seems to me that one may array the sciences roughly linearly in a
+          hierarchy, according to the idea: The elementary entities of science X
+          obey the laws of science Y.
         </p>
         <p>
-          En Ecodigital, entendemos que cada consultorio es un sistema complejo
-          con sus propias necesidades. Por eso, nuestra plataforma está diseñada
-          para adaptarse y evolucionar con tu práctica profesional.
+          But this hierarchy does not imply that science X is “just applied Y.”
+          At each stage entirely new laws, concepts and generalizations are
+          necessary, requiring inspiration and creativity to just as great a
+          degree as in the previous one. Psychology is not applied biology, nor
+          is biology applied chemistry.
         </p>
         <BlogLink />
       </>
@@ -158,8 +188,8 @@ export const article4: Array<OnboardingBlockOption> = [
     sub: {
       children: (
         <ShadowSticker width={463}>
-          Los sistemas complejos introducen nuevas propiedades, exigiendo
-          investigación fundamental más allá del reduccionismo.
+          Complex systems introduce new properties, demanding fundamental
+          research beyond reductionism.
         </ShadowSticker>
       ),
       edgelessOnly: true,

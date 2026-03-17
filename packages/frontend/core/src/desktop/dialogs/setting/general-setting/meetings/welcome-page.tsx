@@ -50,9 +50,7 @@ export const MeetingsWelcomePage = () => {
           />
           <a
             className={styles.learnMoreLink}
-            href="https://discord.com/channels/959027316334407691/1358384103925350542"
-            target="_blank"
-            rel="noreferrer"
+            href="/ayuda"
           >
             {t['com.affine.settings.meetings.setting.welcome.learn-more']()}
             <DualLinkIcon className={styles.linkIcon} />

@@ -70,8 +70,7 @@ import {
   SettingsIcon,
 } from '@blocksuite/icons/rc';
 import { useLiveData, useService, useServices } from '@toeverything/infra';
-import type { ReactElement } from 'react';
-import type { SVGAttributes } from 'react';
+import type { ReactElement, SVGAttributes } from 'react';
 import { memo, useCallback, useEffect } from 'react';
 
 import {
@@ -87,18 +86,17 @@ import { SidebarSwitch } from '../../modules/app-sidebar/views/sidebar-header';
 import { WorkbenchService } from '../../modules/workbench';
 import { WorkspaceNavigator } from '../workspace-selector';
 import {
+  NAVIGATION_PROTECTION_ERRORS,
+  initializeImmutableNavigation,
+  validateNavigationIntegrity,
+} from './immutable-navigation-config';
+import {
   bottomContainer,
   quickSearch,
   quickSearchAndNewPage,
   workspaceAndUserWrapper,
   workspaceWrapper,
 } from './index.css';
-import {
-  initializeImmutableNavigation,
-  validateNavigationIntegrity,
-  IMMUTABLE_NAVIGATION_ITEMS,
-  NAVIGATION_PROTECTION_ERRORS,
-} from './immutable-navigation-config';
 import { InviteMembersButton } from './invite-members-button';
 import { AppSidebarJournalButton } from './journal-button';
 import { NotificationButton } from './notification-button';
