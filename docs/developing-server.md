@@ -85,6 +85,12 @@ Include a default `Team Workspace` and the members up to 10
 yarn dev
 ```
 
+> Tip: Si quieres levantar **frontend + backend** juntos (2 procesos a la vez), puedes usar:
+>
+> ```sh
+> yarn dev:full
+> ```
+
 Puedes iniciar sesión con el usuario (dev@ecodigital.local / dev) para probar el servidor.
 
 ## Done

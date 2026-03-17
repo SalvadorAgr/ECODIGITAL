@@ -1,3 +1,4 @@
+import { Logo1Icon } from '@blocksuite/icons/rc';
 import clsx from 'clsx';
 import type { FC } from 'react';
 
@@ -11,13 +12,7 @@ export const AuthHeader: FC<{
   return (
     <div className={clsx(authHeaderWrapper, className)}>
       <p>
-        <img
-          src="/brand-logo.png"
-          alt="Ecodigital"
-          className="logo"
-          width={24}
-          height={24}
-        />
+        <Logo1Icon className="logo" />
         {title}
       </p>
       <p>{subTitle}</p>
