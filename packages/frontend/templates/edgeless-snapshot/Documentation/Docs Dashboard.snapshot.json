@@ -1,0 +1,166 @@
+{
+  "type": "page",
+  "meta": {
+    "id": "page:docs-dashboard",
+    "title": "Docs",
+    "createDate": 1768694400000,
+    "tags": []
+  },
+  "blocks": {
+    "type": "block",
+    "id": "block:docs-root",
+    "flavour": "affine:page",
+    "props": {
+      "title": {
+        "$blocksuite:internal:text$": true,
+        "delta": []
+      }
+    },
+    "children": [
+      {
+        "type": "block",
+        "id": "block:docs-surface",
+        "flavour": "affine:surface",
+        "props": {
+          "elements": {
+            "bg": {
+              "type": "shape",
+              "xywh": "[-960,-540,1920,1080]",
+              "rotate": 0,
+              "shapeType": "rect",
+              "shapeStyle": "General",
+              "radius": 0,
+              "filled": true,
+              "fillColor": "#121212",
+              "strokeWidth": 0,
+              "strokeColor": "#121212",
+              "strokeStyle": "none",
+              "roughness": 1,
+              "id": "bg",
+              "index": "a0",
+              "seed": 101,
+              "color": "#121212"
+            },
+            "title": {
+              "type": "text",
+              "xywh": "[-900,-480,300,64]",
+              "rotate": 0,
+              "text": {
+                "affine:surface:text": true,
+                "delta": [
+                  {
+                    "insert": "Docs"
+                  }
+                ]
+              },
+              "color": "#FFFFFF",
+              "fontSize": 48,
+              "fontFamily": "blocksuite:surface:Poppins",
+              "fontWeight": "700",
+              "fontStyle": "normal",
+              "textAlign": "left",
+              "id": "title",
+              "index": "a1",
+              "seed": 102
+            },
+            "grid": {
+              "type": "shape",
+              "xywh": "[-900,-380,1200,360]",
+              "rotate": 0,
+              "shapeType": "rect",
+              "shapeStyle": "General",
+              "radius": 16,
+              "filled": true,
+              "fillColor": "#1E1E1E",
+              "strokeWidth": 0,
+              "strokeColor": "#1E1E1E",
+              "strokeStyle": "none",
+              "roughness": 1,
+              "id": "grid",
+              "index": "a2",
+              "seed": 103,
+              "color": "#1E1E1E"
+            },
+            "shortcuts": {
+              "type": "shape",
+              "xywh": "[-900,20,1200,160]",
+              "rotate": 0,
+              "shapeType": "rect",
+              "shapeStyle": "General",
+              "radius": 16,
+              "filled": true,
+              "fillColor": "#1E1E1E",
+              "strokeWidth": 0,
+              "strokeColor": "#1E1E1E",
+              "strokeStyle": "none",
+              "roughness": 1,
+              "id": "shortcuts",
+              "index": "a3",
+              "seed": 104,
+              "color": "#1E1E1E"
+            },
+            "analytics": {
+              "type": "shape",
+              "xywh": "[-900,210,1200,300]",
+              "rotate": 0,
+              "shapeType": "rect",
+              "shapeStyle": "General",
+              "radius": 16,
+              "filled": true,
+              "fillColor": "#1E1E1E",
+              "strokeWidth": 0,
+              "strokeColor": "#1E1E1E",
+              "strokeStyle": "none",
+              "roughness": 1,
+              "id": "analytics",
+              "index": "a4",
+              "seed": 105,
+              "color": "#1E1E1E"
+            },
+            "sidebar": {
+              "type": "shape",
+              "xywh": "[330,-380,360,890]",
+              "rotate": 0,
+              "shapeType": "rect",
+              "shapeStyle": "General",
+              "radius": 16,
+              "filled": true,
+              "fillColor": "#1E1E1E",
+              "strokeWidth": 0,
+              "strokeColor": "#1E1E1E",
+              "strokeStyle": "none",
+              "roughness": 1,
+              "id": "sidebar",
+              "index": "a5",
+              "seed": 106,
+              "color": "#1E1E1E"
+            },
+            "subtitle": {
+              "type": "text",
+              "xywh": "[-900,-410,500,24]",
+              "rotate": 0,
+              "text": {
+                "affine:surface:text": true,
+                "delta": [
+                  {
+                    "insert": "Documentation Dashboard"
+                  }
+                ]
+              },
+              "color": "#BFBFBF",
+              "fontSize": 18,
+              "fontFamily": "blocksuite:surface:Poppins",
+              "fontWeight": "500",
+              "fontStyle": "normal",
+              "textAlign": "left",
+              "id": "subtitle",
+              "index": "a6",
+              "seed": 107
+            }
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+}

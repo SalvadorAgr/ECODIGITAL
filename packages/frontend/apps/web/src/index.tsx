@@ -1,4 +1,5 @@
 import './setup';
+import './sw-register';
 
 import { Telemetry } from '@affine/core/components/telemetry';
 import { StrictMode } from 'react';

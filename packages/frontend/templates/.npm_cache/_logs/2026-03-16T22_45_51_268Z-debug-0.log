@@ -1,0 +1,29 @@
+0 verbose cli /Users/salvadoraguilar/.nvm/versions/node/v22.22.0/bin/node /Users/salvadoraguilar/.nvm/versions/node/v22.22.0/bin/npm
+1 info using npm@11.11.1
+2 info using node@v22.22.0
+3 silly config load:file:/Users/salvadoraguilar/.nvm/versions/node/v22.22.0/lib/node_modules/npm/npmrc
+4 info config found workspace root at /Users/salvadoraguilar/Downloads/ECODIGITAL
+5 silly config load:file:/Users/salvadoraguilar/Downloads/ECODIGITAL/.npmrc
+6 silly config load:file:/Users/salvadoraguilar/.npmrc
+7 silly config load:file:/Users/salvadoraguilar/.nvm/versions/node/v22.22.0/etc/npmrc
+8 verbose title npm config get prefix
+9 verbose argv "config" "get" "prefix"
+10 verbose logfile logs-max:10 dir:/Users/salvadoraguilar/Downloads/ECODIGITAL/packages/frontend/templates/.npm_cache/_logs/2026-03-16T22_45_51_268Z-
+11 verbose logfile /Users/salvadoraguilar/Downloads/ECODIGITAL/packages/frontend/templates/.npm_cache/_logs/2026-03-16T22_45_51_268Z-debug-0.log
+12 warn Unknown project config "shell-emulator". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+13 warn Unknown project config "electron_mirror". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+14 silly logfile done cleaning log files
+15 verbose stack Error: This command does not support workspaces.
+15 verbose stack     at Npm.execCommandClass (/Users/salvadoraguilar/.nvm/versions/node/v22.22.0/lib/node_modules/npm/lib/npm.js:283:29)
+15 verbose stack     at #exec (/Users/salvadoraguilar/.nvm/versions/node/v22.22.0/lib/node_modules/npm/lib/npm.js:224:17)
+15 verbose stack     at Npm.exec (/Users/salvadoraguilar/.nvm/versions/node/v22.22.0/lib/node_modules/npm/lib/npm.js:193:25)
+15 verbose stack     at module.exports (/Users/salvadoraguilar/.nvm/versions/node/v22.22.0/lib/node_modules/npm/lib/cli/entry.js:59:29)
+16 error code ENOWORKSPACES
+17 error This command does not support workspaces.
+18 verbose cwd /Users/salvadoraguilar/Downloads/ECODIGITAL/packages/frontend/templates
+19 verbose os Darwin 25.3.0
+20 verbose node v22.22.0
+21 verbose npm  v11.11.1
+22 verbose exit 1
+23 verbose code 1
+24 error A complete log of this run can be found in: /Users/salvadoraguilar/Downloads/ECODIGITAL/packages/frontend/templates/.npm_cache/_logs/2026-03-16T22_45_51_268Z-debug-0.log

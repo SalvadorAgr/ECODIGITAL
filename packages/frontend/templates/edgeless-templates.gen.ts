@@ -8,12 +8,14 @@ import Storyboard from './edgeless/Storyboard.json';
 import UserJourneyMap from './edgeless/User Journey Map.json';
 import BusinessProposal from './edgeless/Business Proposal.json';
 import DataAnalysis from './edgeless/Data Analysis.json';
+import DocsDashboard from './edgeless/Docs Dashboard.json';
 import SimplePresentation from './edgeless/Simple Presentation.json';
 import FishboneDiagram from './edgeless/Fishbone Diagram.json';
 import GanttChart from './edgeless/Gantt Chart.json';
 import MonthlyCalendar from './edgeless/Monthly Calendar.json';
 import ProjectPlanning from './edgeless/Project Planning.json';
 import ProjectTrackingKanban from './edgeless/Project Tracking Kanban.json';
+import DocsDashboard from './edgeless/Docs Dashboard.json';
 
 const templates = {
   'Brainstorming': [
@@ -33,12 +35,18 @@ const templates = {
     DataAnalysis,
     SimplePresentation
   ],
+  'Documentation': [
+    DocsDashboard
+  ],
   'Project Management': [
     FishboneDiagram,
     GanttChart,
     MonthlyCalendar,
     ProjectPlanning,
     ProjectTrackingKanban
+  ],
+  'Documentation': [
+    DocsDashboard
   ]
 }
 

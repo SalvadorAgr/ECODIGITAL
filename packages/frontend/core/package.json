@@ -10,7 +10,6 @@
   "dependencies": {
     "@affine/component": "workspace:*",
     "@affine/debug": "workspace:*",
-    "@affine/electron-api": "workspace:*",
     "@affine/env": "workspace:*",
     "@affine/error": "workspace:*",
     "@affine/graphql": "workspace:*",
@@ -101,8 +100,6 @@
   },
   "devDependencies": {
     "@blocksuite/affine-ext-loader": "workspace:*",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.1.0",
     "@types/animejs": "^3.1.12",
     "@types/bytes": "^3.1.5",
     "@types/image-blob-reduce": "^4.1.4",

@@ -8,6 +8,7 @@ import { ZipTransformer } from '@blocksuite/affine/widgets/linked-doc';
 
 import { DocsService } from '../modules/doc';
 import { OrganizeService } from '../modules/organize';
+import { CollectionService } from '../modules/collection';
 import {
   getAFFiNEWorkspaceSchema,
   type WorkspacesService,
@@ -35,6 +36,7 @@ export async function buildShowcaseWorkspace(
   await workspace.engine.doc.waitForDocReady(workspace.id);
 
   const docsService = workspace.scope.get(DocsService);
+  const collectionService = workspace.scope.get(CollectionService);
 
   // should jump to "Getting Started"
   const defaultDoc = docsService.list.docs$.value.find(p =>
@@ -43,6 +45,13 @@ export async function buildShowcaseWorkspace(
   const folderTutorialDoc = docsService.list.docs$.value.find(p =>
     p.title$.value.startsWith('How to use folder and Tags')
   );
+
+  // create default "Docs" collection so it shows in the sidebar
+  collectionService.createCollection({
+    name: 'Docs',
+    rules: { filters: [] },
+    allowList: defaultDoc?.id ? [defaultDoc.id] : [],
+  });
 
   // create default organize
   if (folderTutorialDoc) {
