@@ -19,14 +19,26 @@ import { useI18n } from '@affine/i18n';
 import { track } from '@affine/track';
 import type { Store } from '@blocksuite/affine/store';
 import {
+  AiIcon,
   AiOutlineIcon,
   AllDocsIcon,
+  AutoTidyUpIcon,
+  BookPanelIcon,
+  CalendarPanelIcon,
+  ChartPanelIcon,
+  CheckBoxCheckLinearIcon,
+  CloudWorkspaceIcon,
+  CubePanelIcon,
+  ExportToPdfIcon,
+  FolderPanelIcon,
+  HistoryIcon,
   ImportIcon,
   JournalIcon,
   SettingsIcon,
 } from '@blocksuite/icons/rc';
 import { useLiveData, useService, useServices } from '@toeverything/infra';
 import type { ReactElement } from 'react';
+import type { SVGAttributes } from 'react';
 import { memo, useCallback } from 'react';
 
 import {
@@ -112,6 +124,34 @@ const AIChatButton = () => {
       <span data-testid="ai-chat">
         {t['com.affine.workspaceSubPath.chat']()}
       </span>
+    </MenuLinkItem>
+  );
+};
+
+const SidebarModuleLink = ({
+  icon,
+  to,
+  label,
+  testId,
+}: {
+  icon: ReactElement<SVGAttributes<SVGElement>>;
+  to: string;
+  label: string;
+  testId: string;
+}) => {
+  const { workbenchService } = useServices({
+    WorkbenchService,
+  });
+  const workbench = workbenchService.workbench;
+  const active = useLiveData(
+    workbench.location$.selector(location => {
+      return location.pathname === to || location.pathname.startsWith(`${to}/`);
+    })
+  );
+
+  return (
+    <MenuLinkItem data-testid={testId} icon={icon} active={active} to={to}>
+      <span>{label}</span>
     </MenuLinkItem>
   );
 };
@@ -226,6 +266,94 @@ export const RootAppSidebar = memo((): ReactElement => {
         </MenuItem>
       </SidebarContainer>
       <SidebarScrollableContainer>
+        {/* EcoDigital fixed modules (El Consultorio) - add only, grouped and native (no replacement). */}
+        <CollapsibleSection
+          path={['consultorio', 'system']}
+          title={'System'}
+          contentStyle={{ padding: '6px 8px 0 8px' }}
+        >
+          <SidebarModuleLink
+            testId="slider-bar-intelligence-button"
+            icon={<AiIcon />}
+            to={'/intelligence'}
+            label={'Intelligence'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-cloud-button"
+            icon={<CloudWorkspaceIcon />}
+            to={'/cloud'}
+            label={'Cloud'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-files-button"
+            icon={<FolderPanelIcon />}
+            to={'/files'}
+            label={'Archivos'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-records-button"
+            icon={<HistoryIcon />}
+            to={'/admin/logs'}
+            label={'Registros'}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection
+          path={['consultorio', 'operations']}
+          title={'Operations'}
+          contentStyle={{ padding: '6px 8px 0 8px' }}
+        >
+          <SidebarModuleLink
+            testId="slider-bar-tasks-button"
+            icon={<CheckBoxCheckLinearIcon />}
+            to={'/tasks'}
+            label={'Tareas'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-agenda-button"
+            icon={<BookPanelIcon />}
+            to={'/appointments'}
+            label={'Agenda'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-calendar-button"
+            icon={<CalendarPanelIcon />}
+            to={'/calendar'}
+            label={'Calendario'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-metrics-button"
+            icon={<ChartPanelIcon />}
+            to={'/reports'}
+            label={'Metricas'}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection
+          path={['consultorio', 'tools']}
+          title={'Tools'}
+          contentStyle={{ padding: '6px 8px 0 8px' }}
+        >
+          <SidebarModuleLink
+            testId="slider-bar-volview-button"
+            icon={<CubePanelIcon />}
+            to={'/volview'}
+            label={'VolView 3D'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-ai-workflow-button"
+            icon={<AutoTidyUpIcon />}
+            to={'/ai-workflow'}
+            label={'AI Workflow'}
+          />
+          <SidebarModuleLink
+            testId="slider-bar-stirling-pdf-button"
+            icon={<ExportToPdfIcon />}
+            to={'/stirling-pdf'}
+            label={'Sterling PDF'}
+          />
+        </CollapsibleSection>
+
         <NavigationPanelFavorites />
         <NavigationPanelOrganize />
         <NavigationPanelMigrationFavorites />
@@ -247,7 +375,7 @@ export const RootAppSidebar = memo((): ReactElement => {
           <InviteMembersButton />
           <TemplateDocEntrance />
           <ExternalMenuLinkItem
-            href="https://affine.pro/blog?tag=Release+Note"
+            href="https://ecodigital.io/blog?tag=Release+Note"
             icon={<JournalIcon />}
             label={t['com.affine.app-sidebar.learn-more']()}
           />

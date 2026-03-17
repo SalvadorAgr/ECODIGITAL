@@ -1,0 +1,83 @@
+FROM node:22-bookworm-slim AS builder
+
+WORKDIR /app
+
+# System deps for building native modules (napi-rs / node-gyp) and running builds.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    git \
+    libssl-dev \
+    python3 \
+    make \
+    g++ \
+    pkg-config \
+  && rm -rf /var/lib/apt/lists/*
+
+# Yarn (v4) via Corepack
+RUN corepack enable
+
+# Needed to pick the same toolchain as the repo expects.
+COPY rust-toolchain.toml ./rust-toolchain.toml
+
+# Rust toolchain for @affine/server-native (napi-rs). Keep in sync with rust-toolchain.toml.
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
+RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal \
+  && TOOLCHAIN="$(node -e \"const fs=require('fs');const t=fs.readFileSync('rust-toolchain.toml','utf8');const m=t.match(/channel\\s*=\\s*\\\"([^\\\"]+)\\\"/);process.stdout.write(m?m[1]:'stable')\")" \
+  && rustup toolchain install \"$TOOLCHAIN\" \
+  && rustup default \"$TOOLCHAIN\"
+
+COPY . .
+
+# Install all workspace deps (nodeLinker=node-modules).
+RUN yarn install --immutable
+
+# Build native binding required by the server runtime.
+RUN yarn workspace @affine/server-native build
+
+# Build frontend bundles (served by the server under the same origin).
+RUN yarn workspace @affine/web build \
+  && yarn workspace @affine/admin build \
+  && yarn workspace @affine/mobile build
+
+# Assemble server static directory.
+RUN rm -rf packages/backend/server/static \
+  && mkdir -p packages/backend/server/static \
+  && cp -R packages/frontend/apps/web/dist/. packages/backend/server/static/ \
+  && mkdir -p packages/backend/server/static/admin \
+  && cp -R packages/frontend/admin/dist/. packages/backend/server/static/admin/ \
+  && mkdir -p packages/backend/server/static/mobile \
+  && cp -R packages/frontend/apps/mobile/dist/. packages/backend/server/static/mobile/
+
+# Build server (bundled entrypoint in packages/backend/server/dist/main.js).
+RUN yarn workspace @affine/server build
+
+
+FROM node:22-bookworm-slim AS runner
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN corepack enable
+
+# The server bundle externalizes many deps; include node_modules.
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/yarn.lock ./yarn.lock
+COPY --from=builder /app/.yarnrc.yml ./.yarnrc.yml
+COPY --from=builder /app/.yarn ./.yarn
+
+COPY --from=builder /app/packages/backend/server ./packages/backend/server
+
+WORKDIR /app/packages/backend/server
+
+# Cloud Run sets $PORT; server should respect it. Default is 3010 in selfhost compose.
+ENV PORT=3010 \
+    DEPLOYMENT_TYPE=selfhosted \
+    DEPLOYMENT_PLATFORM=gcp
+
+EXPOSE 3010
+
+CMD ["node", "./dist/main.js"]

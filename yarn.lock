@@ -789,54 +789,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@affine/monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@affine/monorepo@workspace:."
-  dependencies:
-    "@affine-tools/cli": "workspace:*"
-    "@capacitor/cli": "npm:^7.0.0"
-    "@eslint/js": "npm:^9.39.2"
-    "@faker-js/faker": "npm:^10.1.0"
-    "@istanbuljs/schema": "npm:^0.1.3"
-    "@magic-works/i18n-codegen": "npm:^0.6.1"
-    "@playwright/test": "npm:=1.58.2"
-    "@smarttools/eslint-plugin-rxjs": "npm:^1.0.8"
-    "@taplo/cli": "npm:^0.7.0"
-    "@toeverything/infra": "workspace:*"
-    "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.0.0"
-    "@typescript-eslint/parser": "npm:^8.55.0"
-    "@vanilla-extract/vite-plugin": "npm:^5.0.0"
-    "@vitest/browser": "npm:^4.0.18"
-    "@vitest/coverage-istanbul": "npm:^4.0.18"
-    "@vitest/ui": "npm:^4.0.18"
-    cross-env: "npm:^10.1.0"
-    electron: "npm:^39.0.0"
-    eslint: "npm:^9.39.2"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-import-x: "npm:^4.16.1"
-    eslint-plugin-oxlint: "npm:^1.46.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^7.0.1"
-    eslint-plugin-simple-import-sort: "npm:^12.1.1"
-    eslint-plugin-sonarjs: "npm:^3.0.7"
-    eslint-plugin-unicorn: "npm:^63.0.0"
-    happy-dom: "npm:^20.0.0"
-    husky: "npm:^9.1.7"
-    lint-staged: "npm:^16.0.0"
-    msw: "npm:^2.12.4"
-    oxlint: "npm:^1.47.0"
-    prettier: "npm:^3.7.4"
-    semver: "npm:^7.7.3"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.55.0"
-    unplugin-swc: "npm:^1.5.9"
-    vite: "npm:^7.2.7"
-    vitest: "npm:^4.0.18"
-  languageName: unknown
-  linkType: soft
-
 "@affine/native@workspace:*, @affine/native@workspace:packages/frontend/native":
   version: 0.0.0-use.local
   resolution: "@affine/native@workspace:packages/frontend/native"
@@ -4129,6 +4081,54 @@ __metadata:
   checksum: 10/a219d60afca9abe708171d7b361907e36526fa8e6e7c480c6c8b05c6611d7e0989b11c1b21b7bceff5d7ccdc92315d364358ec3fd8bc5113d4e869288f32ae9c
   languageName: node
   linkType: hard
+
+"@ecodigital/monorepo@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@ecodigital/monorepo@workspace:."
+  dependencies:
+    "@affine-tools/cli": "workspace:*"
+    "@capacitor/cli": "npm:^7.0.0"
+    "@eslint/js": "npm:^9.39.2"
+    "@faker-js/faker": "npm:^10.1.0"
+    "@istanbuljs/schema": "npm:^0.1.3"
+    "@magic-works/i18n-codegen": "npm:^0.6.1"
+    "@playwright/test": "npm:=1.58.2"
+    "@smarttools/eslint-plugin-rxjs": "npm:^1.0.8"
+    "@taplo/cli": "npm:^0.7.0"
+    "@toeverything/infra": "workspace:*"
+    "@types/eslint": "npm:^9.6.1"
+    "@types/node": "npm:^22.0.0"
+    "@typescript-eslint/parser": "npm:^8.55.0"
+    "@vanilla-extract/vite-plugin": "npm:^5.0.0"
+    "@vitest/browser": "npm:^4.0.18"
+    "@vitest/coverage-istanbul": "npm:^4.0.18"
+    "@vitest/ui": "npm:^4.0.18"
+    cross-env: "npm:^10.1.0"
+    electron: "npm:^39.0.0"
+    eslint: "npm:^9.39.2"
+    eslint-config-prettier: "npm:^10.1.8"
+    eslint-import-resolver-typescript: "npm:^4.4.4"
+    eslint-plugin-import-x: "npm:^4.16.1"
+    eslint-plugin-oxlint: "npm:^1.46.0"
+    eslint-plugin-react: "npm:^7.37.5"
+    eslint-plugin-react-hooks: "npm:^7.0.1"
+    eslint-plugin-simple-import-sort: "npm:^12.1.1"
+    eslint-plugin-sonarjs: "npm:^3.0.7"
+    eslint-plugin-unicorn: "npm:^63.0.0"
+    happy-dom: "npm:^20.0.0"
+    husky: "npm:^9.1.7"
+    lint-staged: "npm:^16.0.0"
+    msw: "npm:^2.12.4"
+    oxlint: "npm:^1.47.0"
+    prettier: "npm:^3.7.4"
+    semver: "npm:^7.7.3"
+    typescript: "npm:^5.9.3"
+    typescript-eslint: "npm:^8.55.0"
+    unplugin-swc: "npm:^1.5.9"
+    vite: "npm:^7.2.7"
+    vitest: "npm:^4.0.18"
+  languageName: unknown
+  linkType: soft
 
 "@electron-forge/cli@npm:^7.10.2":
   version: 7.10.2

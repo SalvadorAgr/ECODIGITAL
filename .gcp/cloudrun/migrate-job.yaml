@@ -1,0 +1,30 @@
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: ecodigital-migrate
+spec:
+  template:
+    template:
+      containers:
+        - image: REPLACE_WITH_IMAGE
+          command:
+            - 'node'
+            - './scripts/self-host-predeploy.js'
+          env:
+            - name: NODE_ENV
+              value: 'production'
+            - name: DEPLOYMENT_TYPE
+              value: 'selfhosted'
+            - name: DEPLOYMENT_PLATFORM
+              value: 'gcp'
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ecodigital-database-url
+                  key: latest
+            - name: REDIS_SERVER_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ecodigital-redis-host
+                  key: latest
+      maxRetries: 1

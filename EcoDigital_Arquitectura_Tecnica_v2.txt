@@ -1,0 +1,1292 @@
+================================================================================
+ECOSISTEMA DIGITAL INTELIGENTE PARA CIRUGIA ESPECIAL
+Documentacion de Arquitectura Tecnica — Version 2.0
+Referencia de Ingenieria Autorizada
+================================================================================
+
+Codigo del Sistema     : EcoDigital / EcosSecial
+Version                : 2.0 — Fase 1
+Cliente                : Dr. Joel Sanchez Garcia
+Agencia de Ingenieria  : dogma.black
+Autor                  : Salvador Aguilar
+Clasificacion          : Referencia Interna de Ingenieria — Confidencial
+
+================================================================================
+
+
+--------------------------------------------------------------------------------
+01  VISION GENERAL DEL SISTEMA
+--------------------------------------------------------------------------------
+
+EcoDigital (identificador de produccion: EcosSecial) es un ecosistema
+administrativo nativo en la nube, aumentado con inteligencia artificial,
+disenado para la gestion integral de consultorios de cirugia especializada.
+Centraliza el manejo de expedientes de pacientes, historiales clinicos,
+agendamiento, almacenamiento documental, control de acceso basado en roles
+y flujos de trabajo asistidos por IA.
+
+
+FASES DEL PROYECTO
+------------------
+
+  Fase 1 (Actual)
+    Dashboard Administrativo Desktop: gestion de datos, RBAC,
+    automatizacion IA.
+    Estado: Activo
+
+  Fase 2
+    Aplicacion movil para equipo clinico; presencia web profesional.
+    Estado: Planeado
+
+  Fase 3
+    App movil para pacientes; integracion AVI en WhatsApp.
+    Estado: Planeado
+
+
+RESTRICCIONES OPERATIVAS
+-------------------------
+
+  - Todos los datos de pacientes son informacion clinica sensible, sujeta
+    a estandares de confidencialidad equivalentes a HIPAA.
+  - Conexion a internet requerida: minimo 250 Mbps para rendimiento optimo
+    en operaciones cloud.
+  - El Desktop Shell opera bajo un modelo edge-hybrid; la inferencia IA se
+    ejecuta localmente cuando no hay conectividad.
+  - Sin dependencia de APIs propietarias de OpenAI. Cero costo por token
+    en modo escritorio.
+  - Todas las eliminaciones son borrado suave (Soft Delete); ninguna
+    entidad se elimina permanentemente.
+
+
+DOMINIOS FUNCIONALES PRINCIPALES
+----------------------------------
+
+  Gestion del Ciclo de Vida del Paciente
+    Registro demografico, historial clinico, archivado.
+
+  Agendamiento de Citas
+    CRUD completo con deteccion de conflictos de horario.
+
+  Gestion Documental
+    Almacenamiento binario en nube con metadatos relacionales.
+
+  Identidad y Control de Acceso
+    RBAC multi-capa con auditoria inmutable WORM.
+
+  Capa de Asistencia IA
+    Generacion de texto, resumenes, borradores de correo, recordatorios.
+
+  Desktop Shell
+    Wrapper Electron con IA local, Sidebar y apps nativas integradas.
+
+  Sidebar Interactivo
+    Panel lateral con funciones fijas, apps nativas y WebViews custom.
+
+
+--------------------------------------------------------------------------------
+02  FILOSOFIA DE ARQUITECTURA
+--------------------------------------------------------------------------------
+
+P1 — Unica Fuente de Verdad
+  PostgreSQL (Cloud SQL) es el unico almacen persistente para todas las
+  entidades estructuradas. No se permiten motores SQL secundarios. El
+  estado de la IA, los registros de auditoria y el estado de la aplicacion
+  persisten dentro de esta instancia.
+
+P2 — Contrato API-First
+  Todas las interfaces de usuario (Desktop Shell, Template Web, apps moviles
+  futuras) se comunican exclusivamente a traves de la API REST versionada
+  en /api/v1/*. Ninguna capa cliente puede establecer conexiones directas
+  a la base de datos.
+
+P3 — Infraestructura Scale-to-Zero
+  Las instancias de Cloud Run mantienen min_instances: 0. El sistema no
+  incurre en costo de computo sin trafico activo. Cloud SQL es el unico
+  componente con costo fijo de uptime.
+
+P4 — Defensa en Profundidad
+  Perimetro de red: API Gateway + VPC Connector.
+  Capa de aplicacion: validacion JWT + middleware RBAC.
+  Capa de datos: cifrado a nivel de campo en columnas sensibles.
+  Capa de auditoria: logging inmutable WORM.
+
+P5 — Persona IA Unificada
+  El usuario percibe un unico asistente IA sin importar el modelo que
+  ejecute la inferencia. El enrutamiento entre Gemma 270M local, Gemma 3
+  en nube, y modelos especializados (MedGemma, Gemini Nano) es invisible
+  para la capa de interfaz.
+
+P6 — Soft Delete Universal
+  Ninguna entidad se elimina permanentemente del sistema. Todas las
+  operaciones DELETE activan is_deleted=1 o status='Archivado'. Esto
+  preserva la continuidad de auditoria y permite la recuperacion de
+  expedientes clinicos.
+
+
+ESTILO ARQUITECTONICO
+----------------------
+
+  Capa                  Componente                    Tecnologia
+  -------               ----------                    ----------
+  Presentacion          Desktop Shell                 Electron.js + Nuxt.js SPA
+  Presentacion          Web Template (SPA)            Nuxt.js / Vue.js 3
+  IA Edge               Motor de Inferencia Local     Gemma 270M / llama.cpp / WebGPU
+  Perimetro de Red      API Gateway                   GCP API Gateway (OpenAPI spec)
+  Aplicacion            Servidor de API Backend       Frappe Framework v15 (Python 3.10+)
+  Datos                 Base de Datos Relacional      PostgreSQL 16 en Cloud SQL
+  Datos                 Almacenamiento de Archivos    Google Cloud Storage
+  Seguridad             Almacen de Secretos           GCP Secret Manager
+  Observabilidad        Backend de Auditoria          GCP Cloud Logging (WORM)
+
+
+--------------------------------------------------------------------------------
+03  ARQUITECTURA DEL SIDEBAR — ESPECIFICACION COMPLETA
+--------------------------------------------------------------------------------
+
+El Sidebar es el panel lateral permanente del Desktop Shell. Es el centro de
+navegacion y acceso a funciones del sistema. Agrupa funciones fijas (sistema)
+y funciones custom configuradas por el usuario (integraciones WebView).
+
+El Sidebar reside dentro del Desktop Shell como un modulo Electron independiente.
+Se comunica con la SPA Template via IPC (preload.js) y con los modulos nativos
+(VolView 3D, Sterling PDF) mediante eventos IPC de montaje/desmontaje.
+
+
+3.1  GRUPOS DE FUNCIONES FIJAS (SISTEMA — NO MODIFICABLES)
+------------------------------------------------------------
+
+Las funciones fijas son parte intrinseca del sistema. No pueden ser eliminadas
+ni reordenadas por el usuario. Estan divididas en dos sub-grupos: funciones de
+navegacion interna y aplicaciones nativas del Desktop Shell.
+
+
+3.1.1  Funciones de Navegacion y Modulos del Sistema
+
+  Funcion         Tipo          Descripcion Tecnica                        Componente
+  -------         ----          -------------------                        ----------
+  Dashboard       Navegacion    Vista principal: metricas, citas del dia,  SPA /
+                                pacientes recientes
+  Cloud           Navegacion    Panel de estado y gestion de servicios     SPA /cloud
+                                GCP conectados
+  Notas           Modulo        Editor de notas rapidas con soporte        SPA /notes
+                                Markdown y IA
+  Tareas          Modulo        Gestor de tareas con prioridades y         SPA /tasks
+                                fechas limite
+  AI Chat         IA            Chat principal con Gemma 270M (local)      IA Panel
+                                o Gemma 3 (nube)
+  Agenda          Navegacion    Vista de calendario con citas y eventos    SPA /appointments
+                                del consultorio
+  Metricas        Analytics     Reportes estadisticos, tendencias y        SPA /reports
+                                KPIs operativos
+  Archivos        Storage       Explorador de documentos medicos en        SPA /files
+                                Cloud Storage
+  Call Logs       Registro      Historial de llamadas y comunicaciones     SPA /calls
+                                registradas
+  Registros       Auditoria     Visor de logs de auditoria (WORM).         SPA /admin/logs
+                                Solo Admin Principal
+  Calendario      Navegacion    Vista mensual/semanal de citas y           SPA /calendar
+                                procedimientos
+
+
+3.1.2  Aplicaciones Nativas del Desktop Shell
+
+Las siguientes dos funciones corresponden a aplicaciones que VIVEN DENTRO del
+Desktop Shell como modulos Electron independientes. Son invocadas desde el
+Sidebar mediante un evento IPC que cambia la vista activa del BrowserWindow
+principal. Al activarlas, la SPA/Template queda suspendida (Frozen Tab) hasta
+que el usuario regresa. No hay recarga de la SPA.
+
+  VolView 3D
+    Tipo                : App Nativa Shell
+    Mecanismo           : IPC — ipcRenderer.invoke('sidebar:mount', 'volview')
+    Descripcion         : Visualizador medico 3D. Renderizado nativo. Sin WebView.
+
+  Sterling PDF
+    Tipo                : App Nativa Shell
+    Mecanismo           : IPC — ipcRenderer.invoke('sidebar:mount', 'sterling')
+    Descripcion         : Editor y visor PDF profesional. Reemplaza Black.Editor
+                          en entorno de escritorio.
+
+
+3.1.3  Integraciones de Productividad Fijas
+
+Estas funciones abren aplicaciones externas en un BrowserView dedicado dentro
+del Desktop Shell. La sesion del usuario es independiente de la sesion principal
+de la SPA.
+
+  Funcion         URL                              Tipo        Auth
+  -------         ---                              ----        ----
+  WhatsApp        https://web.whatsapp.com         WebView     Sesion persistente
+  Outlook         https://outlook.live.com         WebView     OAuth / MSAL
+  Gmail           https://mail.google.com          WebView     OAuth / Google
+  Drive           https://drive.google.com         WebView     OAuth / Google
+  Google Docs     https://docs.google.com          WebView     OAuth / Google
+
+
+3.2  GRUPOS DE FUNCIONES CUSTOM (INTEGRACIONES WEBVIEW — USUARIO)
+------------------------------------------------------------------
+
+Las integraciones custom son WebViews gestionadas completamente por el usuario.
+El sistema provee una interfaz de gestion que permite AGREGAR, ELIMINAR y
+REORDENAR aplicaciones web como si fueran aplicaciones instaladas.
+
+Cada WebView opera en un proceso de navegador aislado con su propia sesion
+y almacenamiento local.
+
+Mecanismo tecnico:
+  - Persistencia del registro de apps : LocalStorage + archivo JSON en userData de Electron
+  - Aislamiento de sesion por WebView  : Electron partition: persist:app-{slug}
+  - Proceso de renderizado             : BrowserView separado por app
+  - Tabs en background                 : Frozen Tabs — proceso suspendido, memoria liberada
+  - Seguridad de contexto              : contextIsolation:true, nodeIntegration:false
+  - Maximo de apps instaladas          : Sin limite tecnico (recomendado <20)
+  - Agregar nueva app                  : Usuario provee URL, nombre, icono
+  - Verificacion de URL                : Validacion de dominio + HTTPS requerido
+
+
+3.2.1  Apps Pre-cargadas Disponibles para Instalacion
+
+  Aplicacion              Categoria          URL Base                           Auth
+  ----------              ---------          --------                           ----
+  llove PDF               Productividad      https://llove.io                   WebView
+  Adobe Acrobat           PDF                https://acrobat.adobe.com          WebView
+  Google Sheets           Hoja de Calculo    https://sheets.google.com          OAuth/Google
+  Google Drive            Almacenamiento     https://drive.google.com           OAuth/Google
+  Outlook                 Correo             https://outlook.live.com           OAuth/MSAL
+  Google Gemini           IA                 https://gemini.google.com          WebView
+  Google Tasks            Tareas             https://tasks.google.com           OAuth/Google
+  Google Keep             Notas              https://keep.google.com            OAuth/Google
+  Microsoft Teams         Colaboracion       https://teams.microsoft.com        OAuth/MSAL
+  Microsoft Word          Documentos         https://www.office.com/word        OAuth/MSAL
+  Microsoft Excel         Hoja de Calculo    https://www.office.com/excel       OAuth/MSAL
+  Microsoft OneNote       Notas              https://www.onenote.com            OAuth/MSAL
+  Microsoft Bookings      Citas              https://outlook.office.com/bookings OAuth/MSAL
+  Google Contacts         Contactos          https://contacts.google.com        OAuth/Google
+  Adobe Illustrator       Diseno             https://express.adobe.com          WebView
+  Adobe Photoshop         Diseno             https://photoshop.adobe.com        WebView
+  Google Traductor        Utilidades         https://translate.google.com       WebView
+  Google Calendar         Calendario         https://calendar.google.com        OAuth/Google
+  Google Slides           Presentaciones     https://slides.google.com          OAuth/Google
+  Google Forms            Formularios        https://forms.google.com           OAuth/Google
+
+
+3.3  COMPONENTES AFECTADOS / ACTUALIZADOS POR EL SIDEBAR
+---------------------------------------------------------
+
+  Componente                        Cambio / Actualizacion Requerida
+  ----------                        --------------------------------
+  Desktop Shell (main.js)           Registrar manejadores IPC:
+                                    sidebar:mount, sidebar:unmount,
+                                    sidebar:webview-open
+
+  Desktop Shell (preload.js)        Exponer sidebarAPI:
+                                    { mount, unmount, openWebView,
+                                      getInstalledApps, installApp, removeApp }
+
+  Modulo Tab Manager                Gestionar ciclo de vida de BrowserViews
+                                    por entrada del sidebar; Frozen Tab logic
+
+  Modulo Memory Monitor             Monitorear VRAM por cada WebView activo;
+                                    umbral de eviccion de cache
+
+  SPA Template (router)             Escuchar eventos IPC de sidebar para
+                                    navegacion: sidebar-navigate → router.push()
+
+  SPA Template (estado/store)       sidebarStore: lista de apps instaladas,
+                                    estado activo, historial de vistas
+
+  VolView 3D (modulo)               Implementar protocolo mount()/unmount()
+                                    con IPC callbacks
+
+  Sterling PDF (modulo)             Implementar protocolo mount()/unmount()
+                                    con IPC callbacks
+
+  Backend API                       Endpoint futuro:
+                                    GET /api/v1/sidebar/config
+                                    Config de sidebar por usuario/rol
+
+
+--------------------------------------------------------------------------------
+04  ARQUITECTURA GLOBAL DEL SISTEMA
+--------------------------------------------------------------------------------
+
+REGISTRO DE COMPONENTES
+------------------------
+
+  Componente                Tecnologia                  Rol                               Despliegue
+  ----------                ----------                  ---                               ----------
+  Web Template (SPA)        Nuxt.js / Vue.js 3          UI principal para todas las vistas Browser / WebView
+  Desktop Shell             Electron.js                 Wrapper nativo, IA local, Sidebar Windows / macOS
+  Sidebar                   Electron BrowserView        Panel lateral: nav, modulos,       Desktop Shell
+                                                        WebViews
+  VolView 3D                Modulo Nativo Electron      Visualizador medico 3D             Desktop Shell
+  Sterling PDF              Modulo Nativo Electron      Editor/visor PDF profesional       Desktop Shell
+  Backend API               Frappe v15 (Python 3.10+)   API, logica de negocio, ORM        Cloud Run (GCP)
+  Base de Datos             PostgreSQL 16               Persistencia de datos              Cloud SQL (GCP)
+  Almacenamiento Archivos   Google Cloud Storage        Almacenamiento binario             GCS Buckets
+  IA Runtime (Local)        Gemma 270M / llama.cpp      Inferencia offline                 Desktop Shell
+  IA Runtime (Nube)         Gemma 3 / Vertex AI         Inferencia en nube                 Vertex AI
+  API Gateway               GCP API Gateway             Terminacion TLS, enrutamiento      GCP Managed
+  Almacen de Secretos       GCP Secret Manager          Inyeccion de credenciales          GCP Managed
+  Backend de Auditoria      GCP Cloud Logging           Almacenamiento eventos WORM        GCP Managed
+
+
+FLUJO DE TRAFICO — SOLICITUD AUTENTICADA
+-----------------------------------------
+
+  Accion del Usuario (UI Desktop)
+    → IPC Electron (IA local) o solicitud HTTPS al API Gateway
+    → Nginx (puerto 443, terminacion TLS 1.3)
+    → API Gateway (enrutamiento OpenAPI spec, validacion IAM)
+    → Cloud Run backend (solo ingress interno)
+    → Frappe: middleware auth → verificacion RBAC → handler
+    → PostgreSQL (Cloud SQL via IP privada VPC)
+    → Respuesta (JSON) → renderizado Frontend
+
+
+VINCULACIONES IAM DE SERVICE ACCOUNTS
+---------------------------------------
+
+  Service Account              Rol IAM                            Alcance
+  ---------------              -------                            -------
+  ecodigital-backend-sa        roles/run.invoker                  Servicio Cloud Run
+  ecodigital-backend-sa        roles/secretmanager.secretAccessor Secretos en Secret Manager
+  ecodigital-backend-sa        roles/storage.objectAdmin          Buckets ecossecial-documents
+                                                                  y ecossecial-models
+  SA de API Gateway            roles/run.invoker                  Servicio Cloud Run (invocacion)
+
+
+--------------------------------------------------------------------------------
+05  ARQUITECTURA DEL BACKEND
+--------------------------------------------------------------------------------
+
+ESTRUCTURA DE DIRECTORIOS
+--------------------------
+
+  ecossecial/
+  ├── api/
+  │   ├── patient.py          # Handlers CRUD de pacientes
+  │   ├── history.py          # Handlers historial clinico
+  │   ├── appointment.py      # Handlers de citas
+  │   ├── document.py         # Subida y recuperacion de documentos
+  │   ├── user.py             # Gestion de usuarios
+  │   ├── role.py             # Gestion de roles
+  │   ├── audit.py            # Acceso de lectura a logs de auditoria
+  │   └── ai.py               # Endpoints proxy de IA
+  ├── utils/
+  │   └── audit.py            # Implementacion de hooks on_update / on_trash
+  ├── hooks.py                # Registro de eventos Frappe
+  └── doctypes/               # Definiciones de schema JSON de DocTypes
+
+
+PIPELINE DE PROCESAMIENTO DE SOLICITUDES
+-----------------------------------------
+
+  1. Solicitud HTTPS entrante llega al API Gateway.
+  2. API Gateway valida token; enruta al Cloud Run por ingress interno.
+  3. Nginx (Cloud Run) hace reverse-proxy al worker de Frappe.
+  4. Router Frappe encuentra el handler decorado con @frappe.whitelist().
+  5. Middleware de auth decodifica JWT; resuelve identidad y rol del usuario.
+  6. Middleware RBAC verifica Custom DocPerm para recurso y operacion.
+  7. Handler ejecuta operaciones ORM de DocType contra PostgreSQL.
+  8. Hooks on_update/on_trash disparan: escritura tabAudit Log + Cloud Logging.
+  9. Respuesta JSON serializada y devuelta al cliente.
+
+
+HOOKS DE AUTOMATIZACION (hooks.py)
+------------------------------------
+
+  doc_events = {
+      "*": {
+          "on_update": "ecossecial.utils.audit.log_update",
+          "on_trash":  "ecossecial.utils.audit.log_delete"
+      }
+  }
+
+
+MATRIZ DE ENFORCEMENT RBAC
+----------------------------
+
+  Rol                   Leer    Escribir  Crear   Borrar  Usuarios  Auditoria
+  ---                   ----    --------  -----   ------  --------  ---------
+  Admin Principal       SI      SI        SI      SI      SI        SI
+  Admin Secundario      SI      SI        SI      NO      NO        NO
+  Asistente             SI      SI        SI      NO      NO        NO
+  Invitado (Lect.)      SI      NO        NO      NO      NO        NO
+
+
+PATRON DE BORRADO SUAVE (SOFT DELETE)
+--------------------------------------
+
+  def soft_delete(doctype, name, user):
+      doc = frappe.get_doc(doctype, name)
+      doc.is_deleted = 1
+      doc.status = "Archivado"
+      doc.save(ignore_permissions=True)
+      # on_update hook dispara automaticamente -> auditoria registrada
+
+
+VARIABLES DE ENTORNO EN RUNTIME
+---------------------------------
+
+  Variable                   Origen              Proposito
+  --------                   ------              ---------
+  DB_HOST                    Output Terraform    IP privada de Cloud SQL
+  DB_PORT                    Estatico: 5432      Puerto PostgreSQL
+  DB_NAME                    Var Terraform       Nombre de BD (ecodigital_db)
+  DB_PASSWORD                Secret Manager      Contrasena de usuario PostgreSQL
+  JWT_SECRET                 Secret Manager      Clave de firma y validacion JWT
+  GCS_BUCKET_NAME            Var Terraform       Nombre del bucket Cloud Storage
+  GOOGLE_CLOUD_PROJECT_ID    Var Terraform       Identificador del proyecto GCP
+  GEMINI_API_KEY             Secret Manager      Clave de acceso Vertex AI / Gemini
+
+  Nota: El backend conecta a Cloud SQL exclusivamente via IP privada (DB_HOST)
+  a traves del VPC Connector. No se usan socket paths /cloudsql/* en produccion.
+
+
+--------------------------------------------------------------------------------
+06  ARQUITECTURA DE APIs
+--------------------------------------------------------------------------------
+
+CONTRATO GENERAL DE LA API
+---------------------------
+
+  URL Base             : https://ecossecial.tudominio.com/api/v1
+  Protocolo            : HTTPS / TLS 1.3 (forzado en API Gateway)
+  Formato              : JSON (Content-Type: application/json)
+  Autenticacion        : Authorization: token {API_KEY}:{API_SECRET}
+  Versionado           : Versionado por URI: /api/v1/
+  Tamano de Pagina     : 20 registros por defecto (limit_page_length=20)
+  Filtro Soft Delete   : is_deleted=0 aplicado implicitamente en todas las listas
+
+
+ENDPOINTS — RESUMEN COMPLETO
+------------------------------
+
+  Endpoint                               Metodo   Descripcion                        Auth Minimo
+  --------                               ------   -----------                        -----------
+  GET  /health                           GET      Liveness probe                     Publico
+  GET  /ready                            GET      Readiness probe (verifica BD)      Publico
+  POST /api/v1/auth/login                POST     Autenticacion, emision de JWT      Publico
+  POST /api/v1/auth/refresh              POST     Renovar token de acceso            Token valido
+  GET  /api/v1/patients                  GET      Lista paginada de pacientes        Todos los roles
+  GET  /api/v1/patients/{id}             GET      Detalle completo de paciente       Todos los roles
+  POST /api/v1/patients                  POST     Crear nuevo expediente             Asistente+
+  PUT  /api/v1/patients/{id}             PUT      Actualizar datos del paciente      Asistente+
+  DELETE /api/v1/patients/{id}           DELETE   Soft delete de paciente            Admin Principal
+  POST /api/v1/patients/{id}/archive     POST     Archivar paciente (bulk)           Admin Principal
+  GET  /api/v1/patients/{id}/history     GET      Historial clinico del paciente     Todos los roles
+  POST /api/v1/patients/{id}/history     POST     Agregar entrada al historial       Asistente+
+  PUT  /api/v1/history/{id}              PUT      Actualizar entrada de historial    Admin Secundario+
+  DELETE /api/v1/history/{id}            DELETE   Soft delete de entrada historial   Admin Principal
+  GET  /api/v1/appointments              GET      Lista de citas con filtros         Todos los roles
+  GET  /api/v1/appointments/{id}         GET      Detalle de cita especifica         Todos los roles
+  POST /api/v1/appointments              POST     Crear cita (deteccion conflictos)  Asistente+
+  PUT  /api/v1/appointments/{id}         PUT      Modificar fecha/hora/estado        Asistente+
+  DELETE /api/v1/appointments/{id}       DELETE   Soft delete de cita                Admin Principal
+  POST /api/v1/patients/{id}/documents   POST     Subir documento a Cloud Storage    Asistente+
+  GET  /api/v1/patients/{id}/documents   GET      Lista de documentos del paciente   Todos los roles
+  GET  /api/v1/documents/{id}            GET      Metadatos + URL pre-firmada 15min  Todos los roles
+  DELETE /api/v1/documents/{id}          DELETE   Soft delete de documento           Admin Principal
+  GET  /api/v1/users                     GET      Lista de cuentas de usuario        Admin Principal
+  POST /api/v1/users                     POST     Crear usuario con rol asignado     Admin Principal
+  PUT  /api/v1/users/{id}                PUT      Actualizar perfil o rol            Admin Principal
+  DELETE /api/v1/users/{id}              DELETE   Soft delete de cuenta usuario      Admin Principal
+  GET  /api/v1/roles                     GET      Lista de roles y permisos          Admin Principal
+  GET  /api/v1/roles/{id}                GET      Permisos detallados de un rol      Admin Principal
+  POST /api/v1/roles                     POST     Crear nueva definicion de rol      Admin Principal
+  PUT  /api/v1/roles/{id}                PUT      Modificar nombre o permisos        Admin Principal
+  DELETE /api/v1/roles/{id}              DELETE   Soft delete de rol                 Admin Principal
+  GET  /api/v1/logs                      GET      Registros de auditoria WORM        Admin Principal
+  POST /api/v1/ai/chat                   POST     Consulta IA (solo texto)           Todos los roles
+  POST /api/v1/ai/generate-email         POST     Borrador de correo desde contexto  Todos los roles
+  POST /api/v1/ai/summarize              POST     Resumen de bloque de texto         Todos los roles
+  POST /api/v1/ai/generate-template      POST     Generar plantilla membretada       Todos los roles
+  POST /api/v1/ai/create-reminder        POST     Recordatorio desde lenguaje nat.   Todos los roles
+  GET  /api/v1/sidebar/config            GET      Config sidebar por usuario [fut.]  Admin+
+
+
+SCHEMAS CLAVE DE SOLICITUD
+---------------------------
+
+  POST /api/v1/auth/login
+    {
+      "username": "string (requerido)",
+      "password": "string (requerido — transmitido solo sobre TLS)"
+    }
+
+  POST /api/v1/patients
+    {
+      "patient_name":           "string (requerido)",
+      "date_of_birth":          "YYYY-MM-DD",
+      "gender":                 "string",
+      "blood_type":             "string",
+      "mobile_number":          "string (cifrado en reposo)",
+      "email":                  "string (cifrado en reposo)",
+      "emergency_contact_name": "string",
+      "allergies":              "string",
+      "chronic_conditions":     "string",
+      "current_medications":    "string",
+      "insurance_number":       "string (cifrado en reposo)"
+    }
+
+  POST /api/v1/appointments
+    {
+      "patient":           "PAT-YYYY-NNNNN (requerido)",
+      "appointment_date":  "YYYY-MM-DD (requerido)",
+      "appointment_time":  "HH:MM:SS (requerido)",
+      "appointment_type":  "string",
+      "status":            "Programada"
+    }
+    Nota: HTTP 409 Conflict si el horario se superpone con una cita Confirmada.
+
+  POST /api/v1/ai/generate-email
+    {
+      "patient_id": "string (requerido)",
+      "motivo":     "string (ej. 'recordatorio de cita')",
+      "puntos_clave": ["string"],
+      "tono":       "formal | empatico | conciso"
+    }
+
+  POST /api/v1/patients/{id}/documents
+    Content-Type: multipart/form-data
+    Campos: file (binario), document_type (string), description (string)
+    MIME aceptados: application/pdf, image/jpeg, image/png, video/mp4
+
+
+ESTADOS DE CITA VALIDOS
+------------------------
+
+  Programada | Confirmada | Cancelada | Atendida | Archivado
+
+
+CONDICIONES DE ERROR COMUNES
+------------------------------
+
+  400 Bad Request            : Datos de entrada mal formados
+  401 Unauthorized           : JWT invalido, expirado o ausente
+  403 Forbidden              : Rol sin permiso para la operacion
+  404 Not Found              : Recurso no encontrado o archivado
+  409 Conflict               : Conflicto de horario en citas
+  422 Unprocessable Entity   : Campos requeridos ausentes
+  429 Too Many Requests      : Limite de tasa excedido
+  500 Internal Server Error  : Error no manejado en backend
+
+
+--------------------------------------------------------------------------------
+07  ARQUITECTURA DE DATOS
+--------------------------------------------------------------------------------
+
+ENTIDADES PRINCIPALES
+----------------------
+
+tabPatient — Registro Maestro de Pacientes
+
+  Columna              Tipo            Restricciones          Descripcion
+  -------              ----            -------------          -----------
+  name                 VARCHAR (hash)  PK, NOT NULL           PAT-YYYY-NNNNN
+  patient_name         VARCHAR(255)    NOT NULL               Nombre completo
+  date_of_birth        DATE            NULLABLE               Fecha de nacimiento
+  gender               VARCHAR(20)     NULLABLE               Genero
+  blood_type           VARCHAR(5)      NULLABLE               Tipo de sangre
+  mobile_number        VARCHAR(255)    NULLABLE, CIFRADO      Telefono movil
+  email                VARCHAR(255)    NULLABLE, CIFRADO      Correo electronico
+  emergency_contact_name VARCHAR(255)  NULLABLE               Nombre contacto emergencia
+  allergies            TEXT            NULLABLE               Alergias conocidas
+  chronic_conditions   TEXT            NULLABLE               Condiciones cronicas
+  current_medications  TEXT            NULLABLE               Medicamentos actuales
+  insurance_number     VARCHAR(255)    NULLABLE, CIFRADO      Numero de poliza
+  status               VARCHAR(20)     DEFAULT 'Activo'       Activo o Archivado
+  is_deleted           TINYINT(1)      DEFAULT 0              Flag borrado suave
+  creation             DATETIME        NOT NULL               Timestamp de creacion
+  modified             DATETIME        NOT NULL               Timestamp de modificacion
+
+  Indices: (mobile_number), (email), (status), (is_deleted)
+
+
+tabClinical History — Historial Clinico
+
+  Columna              Tipo            Restricciones          Descripcion
+  -------              ----            -------------          -----------
+  name                 VARCHAR (hash)  PK, NOT NULL           Identificador de entrada
+  patient              VARCHAR         FK tabPatient, NOT NULL Referencia al paciente
+  consultation_date    DATE            NOT NULL               Fecha de consulta
+  diagnostico          TEXT            NULLABLE               Diagnostico
+  notas_medico         TEXT            NULLABLE               Notas del medico
+  activo               BOOLEAN         DEFAULT TRUE           Estado activo/archivado
+  is_deleted           TINYINT(1)      DEFAULT 0              Flag borrado suave
+
+  Indice critico: compuesto (patient, consultation_date)
+  — Habilita reconstruccion cronologica O(log n)
+
+
+tabAppointment — Citas
+
+  Columna              Tipo            Restricciones          Descripcion
+  -------              ----            -------------          -----------
+  name                 VARCHAR (hash)  PK, NOT NULL           APT-YYYY-NNNNN
+  patient              VARCHAR         FK tabPatient, NOT NULL Paciente asociado
+  appointment_date     DATE            NOT NULL               Fecha de la cita
+  appointment_time     TIME            NOT NULL               Hora de la cita
+  appointment_type     VARCHAR(100)    NULLABLE               Tipo de consulta
+  status               VARCHAR(20)     DEFAULT 'Programada'   Estado de la cita
+  is_deleted           TINYINT(1)      DEFAULT 0              Flag borrado suave
+
+  Indice critico: (appointment_date, status)
+  — Requerido para consulta "Citas del Dia" en dashboard
+
+
+tabMedical Document — Documentos Medicos
+
+  Columna              Tipo            Restricciones          Descripcion
+  -------              ----            -------------          -----------
+  name                 VARCHAR (hash)  PK, NOT NULL           DOC-YYYY-NNNNN
+  patient              VARCHAR         FK tabPatient, NOT NULL Paciente asociado
+  history_entry        VARCHAR         FK tabClinical History  Entrada de historial (opt.)
+  file_name            VARCHAR(255)    NOT NULL               Nombre hash ofuscado en GCS
+  original_name        VARCHAR(255)    NULLABLE               Nombre original del archivo
+  document_type        VARCHAR(100)    NULLABLE               Clasificacion del documento
+  mime_type            VARCHAR(100)    NOT NULL               Tipo MIME
+  gcs_bucket           VARCHAR(255)    NOT NULL               Nombre del bucket GCS
+  gcs_path             VARCHAR(512)    NOT NULL               Ruta completa en GCS
+  is_deleted           TINYINT(1)      DEFAULT 0              Flag borrado suave
+
+  Nota: gcs_path nunca se expone a clientes. El acceso se media
+  mediante URLs pre-firmadas con TTL de 15 minutos.
+
+
+tabUser — Usuarios del Sistema
+
+  Columna              Tipo            Restricciones          Descripcion
+  -------              ----            -------------          -----------
+  name                 VARCHAR (hash)  PK                     Identificador de usuario
+  nombre               VARCHAR(255)    NOT NULL               Nombre para mostrar
+  email                VARCHAR(255)    NOT NULL, UNIQUE        Credencial de login
+  hash_password        VARCHAR(512)    NOT NULL               Hash bcrypt de contrasena
+  id_role              INTEGER         FK tabRoles, NOT NULL  Rol asignado
+  activo               BOOLEAN         DEFAULT TRUE           Estado activo
+  is_deleted           TINYINT(1)      DEFAULT 0              Flag borrado suave
+
+  Indices: UNIQUE(email), (id_role), (activo)
+
+
+tabRoles — Roles del Sistema
+
+  Columna              Tipo            Restricciones          Descripcion
+  -------              ----            -------------          -----------
+  id_rol               INTEGER         PK, AUTO_INCREMENT     Identificador de rol
+  nombre_rol           VARCHAR(100)    NOT NULL, UNIQUE        Nombre del rol
+  permisos             JSON            NOT NULL               Mapa de permisos
+
+  Roles predefinidos:
+    Admin Principal       : lectura, escritura, crear, borrar, usuarios, auditoria
+    Admin Secundario      : lectura, escritura, crear
+    Asistente             : lectura, escritura, crear (pacientes/citas/docs)
+    Invitado (Solo Lect.) : solo lectura
+
+
+tabAudit Log — Auditoria Inmutable (WORM)
+
+  Columna              Tipo            Restricciones          Descripcion
+  -------              ----            -------------          -----------
+  id_log               INTEGER         PK, AUTO_INCREMENT     Identificador de entrada
+  tabla_afectada       VARCHAR(100)    NOT NULL               DocType afectado
+  id_registro_afectado VARCHAR(255)    NOT NULL               ID del registro afectado
+  tipo_operacion       VARCHAR(50)     NOT NULL               login_exitoso | crear |
+                                                             actualizar | eliminar
+  datos_anteriores     JSON            NULLABLE               Estado pre-operacion
+  datos_nuevos         JSON            NULLABLE               Estado post-operacion
+  fecha_hora           DATETIME        NOT NULL               Timestamp del evento
+  id_usuario_autor     VARCHAR         FK tabUser, NOT NULL   Usuario que actuo
+
+  Configuracion de inmutabilidad: allow_edit=0 a nivel DocType Frappe
+  No se permiten UPDATE ni DELETE sobre esta tabla via API ni interfaz.
+
+  Indices: (fecha_hora), compuesto (tabla_afectada, id_registro_afectado),
+           (tipo_operacion), (id_usuario_autor)
+
+
+ENTIDADES DE PERSISTENCIA IA
+------------------------------
+
+  AI_THREADS      : Conversaciones por usuario/tenant (estado, timestamps)
+  AI_MESSAGES     : Mensajes individuales (rol: user/assistant, contenido, refs)
+  AI_MEMORY       : Hechos verificados, preferencias, resumenes con TTL
+  AI_ACTIONS_LOG  : Registro de acciones IA sugeridas/ejecutadas (auditoria)
+
+  Estas tablas habilitan continuidad de sesion entre Desktop Shell,
+  Black.Editor, Black.View y el Template Web sin reinicio de estado IA.
+
+
+--------------------------------------------------------------------------------
+08  ARQUITECTURA DE INFRAESTRUCTURA
+--------------------------------------------------------------------------------
+
+CLOUD RUN — COMPUTO
+--------------------
+
+  Nombre del servicio     : var.cloud_run_service_name
+  Container registry      : REGION-docker.pkg.dev/PROJECT_ID/ecodigital-backend-repo/
+  Instancias minimas      : 0 (scale-to-zero; cero costo sin trafico)
+  Instancias maximas      : 100 (valor por defecto Cloud Run)
+  Ingress                 : Solo interno (sin acceso publico directo)
+  Auth de invocacion      : Privado; solo SA de API Gateway (roles/run.invoker)
+  Service Account         : ecodigital-backend-sa@PROJECT_ID.iam.gserviceaccount.com
+  Inyeccion de secretos   : Variables de entorno via secret_key_ref (Terraform)
+
+
+CLOUD SQL — BASE DE DATOS
+--------------------------
+
+  Motor               : PostgreSQL 16
+  Nombre de instancia : var.db_instance_name
+  Region              : var.gcp_region (objetivo: us-central1)
+  Tier (Produccion)   : db-standard-4 (Enterprise)
+  Tier (Dev/Staging)  : db-g1-small (optimizado en costos)
+  Conectividad        : Solo IP Privada (ipv4_enabled=false)
+  Metodo de conexion  : VPC Connector → IP privada via variable DB_HOST
+  Base de datos       : ecodigital_db
+  Respaldo            : Automatico diario + WAL PITR (Point-in-Time Recovery)
+  Uptime programado   : Lun-Vie 05:00-23:00 (~450 hrs/mes, ~40% ahorro)
+
+
+CLOUD STORAGE — BUCKETS
+------------------------
+
+  ecossecial-documents
+    Proposito : Documentos del paciente: PDF, DICOM, JPEG, MP4
+    Acceso    : URL pre-firmada con TTL de 15 minutos; solo via backend
+    Nombres   : Archivos con nombre hash ofuscado
+
+  ecossecial-models
+    Proposito : Binario del modelo IA (Gemma 270M ~3 GB)
+    Acceso    : Descarga unica autenticada por Desktop Shell al primer inicio
+    Cifrado   : Activado server-side por GCP
+
+  IAM: ecodigital-backend-sa tiene roles/storage.objectAdmin en ambos buckets.
+
+
+TOPOLOGIA DE RED
+-----------------
+
+  Internet
+    → API Gateway (HTTPS/TLS 1.3, certificado gestionado por Google)
+    → Cloud Run (ingress interno, invocacion IAM-autenticada)
+    → VPC Connector (google_vpc_access_connector)
+    → VPC Default
+    → Cloud SQL (solo IP privada, sin IP publica)
+
+  Puertos expuestos en produccion:
+    443/TCP : HTTPS (API Gateway)
+    22/TCP  : SSH (acceso al servidor, restringido)
+
+  Sin reglas de firewall personalizadas: control de acceso via IAM de GCP.
+
+
+GESTION DE SECRETOS
+--------------------
+
+  Nombre del Secreto                      Consumidor            Proposito
+  ------------------                      ----------            ---------
+  ecodigital-backend-database-secret      Cloud Run             Contrasena usuario PostgreSQL
+  ecodigital-jwt-secret                   Cloud Run             Clave firma/validacion JWT
+  ecodigital-gemini-api-key               Cloud Run             Clave acceso Vertex AI / Gemini
+
+  Los secretos se inyectan como variables de entorno al inicio del
+  contenedor Cloud Run via configuracion secret_key_ref de Terraform.
+  Ningun secreto se embebe en imagenes de contenedor ni en codigo fuente.
+
+
+OBSERVABILIDAD
+---------------
+
+  Cloud Logging     : Recoleccion automatica de Cloud Run, Cloud SQL,
+                      API Gateway. Logs estructurados JSON desde la app.
+                      Stream de auditoria WORM en ecossecial-audit.
+  Cloud Monitoring  : Dashboards por defecto para todos los servicios.
+  Error Reporting   : No habilitado explicitamente (Fase 2).
+  Cloud Trace       : No habilitado en Fase 1. Instrumentacion
+                      OpenTelemetry planeada para fases futuras.
+
+
+ARQUITECTURA DE COSTOS
+-----------------------
+
+  Componente             Comportamiento de Costo    Medida de Optimizacion
+  ----------             ----------------------     ----------------------
+  Cloud Run              Pago por solicitud; cero    min_instances: 0 permanente
+                         a cero trafico
+  Cloud SQL              Costo fijo por hora         GCP Scheduler: 450 hrs/mes
+  Cloud Storage          Por GB almacenado + egress  Modelo descargado una sola vez
+  VPC Connector          Costo por hora (minimo)     Tier de minimo throughput
+  IA Local (Desktop)     $0.00                       Gemma 270M en hardware cliente
+  IA en Nube             Costo por token (Vertex AI) Compensado por inferencia local
+
+  Objetivo mensual: < 2,000 MXN entornos no-produccion.
+  Produccion: gobernado por credito GCP de $25,000 USD.
+
+
+--------------------------------------------------------------------------------
+09  ARQUITECTURA DE SEGURIDAD
+--------------------------------------------------------------------------------
+
+SEGURIDAD DE TRANSPORTE
+------------------------
+
+  Todo el trafico cliente-nube transita por HTTPS forzado en el API Gateway
+  con TLS 1.3 y certificados gestionados por Google. Puerto 443 es el unico
+  puerto de acceso publico. No se aceptan conexiones HTTP en produccion.
+
+
+FLUJO DE AUTENTICACION
+-----------------------
+
+  1. Cliente envia credenciales a POST /api/v1/auth/login.
+  2. Backend valida contra hash bcrypt en tabUser.
+  3. Backend emite JWT firmado (JWT_SECRET desde Secret Manager).
+  4. Todas las solicitudes siguientes incluyen JWT en cabecera Authorization.
+  5. Middleware Frappe valida firma y expiracion del JWT en cada solicitud.
+  6. Renovacion disponible via POST /api/v1/auth/refresh.
+
+
+CIFRADO DE DATOS
+-----------------
+
+  Datos en transito      : TLS 1.3 (todo el trafico externo via API Gateway)
+  Datos en reposo SQL    : Cifrado server-side GCP con claves gestionadas
+  Datos en reposo GCS    : Cifrado server-side GCP con claves gestionadas
+  Campos sensibles       : Modulo encrypt Python de Frappe aplicado a
+                           mobile_number, email, insurance_number
+  Contrasenas            : Hash bcrypt; texto plano jamas almacenado
+  Acceso a documentos    : URLs pre-firmadas TTL 15 min; rutas GCS nunca
+                           expuestas al cliente
+
+
+AUDITORIA — WORM DOBLE CAPA
+-----------------------------
+
+  Capa 1 — tabAudit Log (allow_edit=0)
+    Hooks on_update y on_trash de Frappe escriben entradas estructuradas
+    en cada mutacion de DocType. Ningun endpoint acepta UPDATE ni DELETE
+    contra esta tabla.
+
+  Capa 2 — GCP Cloud Logging (ecossecial-audit)
+    Payloads JSON estructurados reenviados a Cloud Logging.
+    No pueden modificarse ni eliminarse por ninguna interfaz o API.
+
+  Esta arquitectura dual garantiza integridad de auditoria incluso
+  ante una compromision a nivel de base de datos.
+
+
+SEGURIDAD DEL DESKTOP SHELL
+-----------------------------
+
+  Propiedad           Valor       Proposito de Seguridad
+  ---------           -----       ----------------------
+  nodeIntegration     false       El renderer no ejecuta APIs Node.js directamente
+  contextIsolation    true        preload.js como unica superficie IPC
+  Lista blanca URI    Estricta    Solo origenes confiables en BrowserWindow
+  Validacion IPC      Whitelist   Sin evaluacion de codigo dinamico via IPC
+  MemoryMonitor.js    Activo      Eviccion cache WebView antes de agotar VRAM
+
+
+--------------------------------------------------------------------------------
+10  ARQUITECTURA DE INTEGRACION IA
+--------------------------------------------------------------------------------
+
+MODELO DE ORQUESTACION — PERSONA IA UNIFICADA
+----------------------------------------------
+
+  Contexto                  Motor IA                           Condicion
+  --------                  --------                           ---------
+  Desktop Shell (en linea)  Gemma 270M local (llama.cpp/WebGPU) Default sesion escritorio
+  Desktop Shell (offline)   Gemma 270M local                   Sin red; fallback sin UX disrupt.
+  Web / Movil               Gemma 3 via Vertex AI / Google AI  Cliente no-escritorio
+  Black.View (Fase 2+)      MedGemma                           Input imagen medica detectado
+  Sidebar chat (Fase 2+)    Gemini Nano                        Sugerencias contextuales
+
+  El enrutamiento entre modelos es completamente transparente para el usuario.
+  La persona del asistente se mantiene unificada en todos los contextos.
+
+
+EJECUCION IA LOCAL (DESKTOP SHELL)
+------------------------------------
+
+  1. Binario Gemma 270M (~3 GB) descargado de gs://ecossecial-models/
+     en segundo plano al primer inicio.
+  2. Binario cacheado en el filesystem local del Desktop Shell.
+  3. Inferencia ejecutada via binding nativo Node.js a llama.cpp,
+     o WebGPU para aceleracion por hardware.
+  4. Prompts desde la UI transmitidos via IPC (preload.js) al proceso
+     principal; respuestas inyectadas de vuelta al WebView.
+  5. Costo por inferencia: $0.00 en modo offline/escritorio.
+
+
+PERSISTENCIA DE CONTEXTO IA 24/7
+----------------------------------
+
+  AI_THREADS   → AI_MESSAGES → AI_MEMORY
+                              → AI_ACTIONS_LOG
+
+  El contexto conversacional persiste entre sesiones, dispositivos
+  y modulos. Cambiar entre Desktop Shell, Black.Editor, Black.View
+  y el Template Web no reinicia el estado de la IA ni su historial.
+
+
+CAPACIDADES DE HERRAMIENTAS IA — FASE 1
+-----------------------------------------
+
+  Capacidad                    Mecanismo                      Endpoint
+  ---------                    ---------                      --------
+  Chat en lenguaje natural     Q&A de texto, consultas        POST /api/v1/ai/chat
+  Busqueda de pacientes via IA  Resolucion de consulta BD     POST /api/v1/ai/chat (contexto)
+  Generacion borradores email  Inyeccion contexto paciente    POST /api/v1/ai/generate-email
+  Resumen de notas clinicas    Truncacion + resumen modelo    POST /api/v1/ai/summarize
+  Creacion de recordatorios    NLP → objeto estructurado      POST /api/v1/ai/create-reminder
+  Generacion de plantillas     Hoja membretada/prescripcion   POST /api/v1/ai/generate-template
+  Integracion Black.Editor     Dictado, traduccion, autocomp. Canal IPC (solo escritorio)
+
+
+LIMITES DE CAPACIDAD IA — FASE 1
+----------------------------------
+
+  - Sin generacion de archivos binarios (PDF, DOCX, imagenes). Solo texto.
+  - Sin generacion de contenido multimedia (imagenes, video, audio).
+  - Sin diagnostico clinico ni recomendaciones de tratamiento.
+  - Sin ejecucion autonoma de acciones sin confirmacion del usuario.
+  - Sin transmision directa de correos electronicos.
+  - Analisis de imagenes con MedGemma reservado para Fase 2+.
+
+
+PRIVACIDAD EN PROMPTS
+----------------------
+
+  El PII del paciente no se transmite a APIs externas de IA en texto plano.
+  El contexto del paciente se inyecta como referencias anonimizadas
+  (ej. PAT-2025-00001) y se resuelve en el backend antes de construir
+  el prompt y enviarlo al modelo. En inferencia local, los datos jamas
+  salen del dispositivo del usuario.
+
+
+--------------------------------------------------------------------------------
+11  ARQUITECTURA DE PRUEBAS
+--------------------------------------------------------------------------------
+
+ESTRATEGIA DE PRUEBAS
+----------------------
+
+  Tipo                  Alcance                                 Herramientas
+  ----                  -------                                 ------------
+  Unitarias             Funciones, validadores, RBAC, handlers  pytest, Jest
+  Integracion           Frontend↔Backend, BD, Storage, IA       pytest, Postman/Newman
+  Funcionales / E2E     Flujos completos login → CRUD            Playwright / Cypress
+  Seguridad             RBAC, inyeccion, TLS                    OWASP ZAP, pentesting
+  Rendimiento           Tiempos API, latencia BD, latencia IA   k6, locust
+  Visual / UI           Glassmorphism, responsivo, animaciones  Playwright visual diff
+
+
+CASOS DE PRUEBA CRITICOS
+-------------------------
+
+  Autenticacion:
+    - Login exitoso retorna JWT valido con claim de rol correcto.
+    - Login fallido retorna HTTP 401; evento escrito en tabAudit Log.
+    - JWT expirado rechazado con HTTP 401.
+
+  Enforcement RBAC:
+    - Rol Asistente no puede acceder a GET /api/v1/logs. Esperado: 403.
+    - Rol Invitado no puede ejecutar POST /api/v1/patients. Esperado: 403.
+    - Admin Principal accede exitosamente a todos los endpoints.
+
+  Integridad Soft Delete:
+    - DELETE /patients/{id} activa is_deleted=1; paciente ausente en lista.
+    - Registro recuperable via GET /patients/{id} directo.
+    - Entrada de auditoria creada con tipo_operacion = "eliminar".
+
+  Ciclo de vida del documento:
+    - Upload retorna signed_url valida con TTL < 15 minutos.
+    - Archivo descargado coincide byte a byte con el subido.
+    - Documento soft-deleted retorna HTTP 404 en recuperacion.
+
+  Inmutabilidad de auditoria:
+    - Ningun endpoint acepta PUT o DELETE contra tabAudit Log.
+    - UPDATE directo en BD bloqueado por allow_edit=0 de Frappe.
+
+
+CRITERIOS DE ACEPTACION DE RENDIMIENTO
+----------------------------------------
+
+  Operacion                                Latencia Objetivo
+  ---------                                -----------------
+  Listado de pacientes (pagina de 20)      < 500 ms
+  Detalle de paciente                      < 300 ms
+  Lista de metadatos de documentos         < 500 ms
+  Carga de calendario de citas (30 dias)   < 800 ms
+  Respuesta chat IA (nube — Vertex AI)     < 5,000 ms
+  Respuesta chat IA (local Gemma 270M)     < 2,000 ms
+  Subida de documento (PDF < 10 MB)        < 8,000 ms
+  Autenticacion (login)                    < 500 ms
+
+
+EXCLUSIONES DE PRUEBA — FASE 1
+--------------------------------
+
+  - Aplicacion movil para pacientes (Fase 3).
+  - Integracion WhatsApp AVI (Fase 3).
+  - Presencia web / landing page (Fase 2).
+  - Analisis de imagenes con MedGemma (Fase 2+).
+  - Sidebar Gemini Nano (Fase 2+).
+  - Digitalizacion de registros fisicos (fuera del alcance).
+
+
+--------------------------------------------------------------------------------
+12  DESPLIEGUE Y MODELO OPERATIVO
+--------------------------------------------------------------------------------
+
+FLUJO DE DESPLIEGUE DEL CONTENEDOR BACKEND
+--------------------------------------------
+
+  Paso 1  Commit de codigo al repositorio.
+  Paso 2  Build:
+          docker build -t REGION-docker.pkg.dev/PROJECT_ID/
+                          ecodigital-backend-repo/IMAGE:TAG .
+  Paso 3  Push:
+          docker push REGION-docker.pkg.dev/PROJECT_ID/
+                      ecodigital-backend-repo/IMAGE:TAG
+  Paso 4  Actualizar variable Terraform:
+          var.backend_image_name = IMAGE:TAG
+  Paso 5  terraform apply — actualiza el servicio Cloud Run.
+  Paso 6  Cloud Run enruta trafico tras pasar health checks (/health, /ready).
+  Paso 7  Si hay cambios de schema: bench migrate (en host Frappe bench).
+
+
+COMANDOS DE MANTENIMIENTO FRAPPE
+----------------------------------
+
+  bench update --patch              Aplicar parches y actualizaciones
+  bench build                       Reconstruir assets del frontend
+  bench migrate                     Aplicar migraciones de schema
+  sudo supervisorctl restart all    Reiniciar todos los workers Frappe
+
+
+DISTRIBUCION DEL DESKTOP SHELL
+--------------------------------
+
+  - Empaquetado via electron-builder: Windows (NSIS), macOS (DMG).
+  - Distribucion directa al sitio del cliente en Fase 1.
+  - Al primer inicio: descarga Gemma 270M (~3 GB) desde GCS en background.
+  - Actualizaciones via modulo autoUpdater de Electron.
+
+
+MATRIX DE ENTORNOS
+-------------------
+
+  Entorno        Tier Cloud SQL    Min Cloud Run   Notas
+  -------        --------------    -------------   -----
+  Desarrollo     db-g1-small       0               Tier reducido; Auth Proxy opcional
+  Staging        db-g1-small       0               Replica de config de produccion
+  Produccion     db-standard-4     0               Programado: Lun-Vie 05:00-23:00
+
+
+MANTENIMIENTO RUTINARIO
+------------------------
+
+  Tarea                         Frecuencia
+  -----                         ----------
+  Actualizar dependencias        Semanal / en cada release del framework
+  Reconstruir assets UI          En cada cambio de codigo frontend
+  Migraciones de schema          En cada cambio de DocType
+  Reiniciar workers              Tras cambios de configuracion
+  Rotar JWT secret               Trimestral minimo
+  Revisar logs de auditoria      Revision de seguridad semanal
+  Verificar respaldo Cloud SQL   Prueba PITR mensual
+
+
+RESPALDO Y RECUPERACION
+------------------------
+
+  Activo                  Mecanismo de Respaldo                Metodo de Recuperacion
+  ------                  ---------------------                ----------------------
+  PostgreSQL              Respaldo diario automatico + WAL     Cloud SQL restore PITR
+  Cloud Storage           Replicacion regional GCP             GCS versioning (si habilitado)
+  Secret Manager          GCP managed (HA regional)            Historial de versiones
+  Estado de Terraform     GCS backend (recomendado)            terraform state restore
+
+
+MATRIX DE RESPUESTA A INCIDENTES
+----------------------------------
+
+  P1 — Critico
+    Condicion : Backend inaccesible; sin acceso a datos de pacientes.
+    Respuesta : Reiniciar Cloud Run; verificar conectividad IP privada
+                Cloud SQL via VPC; revisar Cloud Logging.
+
+  P2 — Alto
+    Condicion : Endpoints IA fallando (nube).
+    Respuesta : Verificar validez de GEMINI_API_KEY en Secret Manager;
+                confirmar cuota Vertex AI; usuarios desktop recurren
+                a inferencia local automaticamente.
+
+  P3 — Medio
+    Condicion : Rendimiento lento de consultas.
+    Respuesta : Revisar Cloud SQL Query Insights; identificar indice
+                faltante; enforcer paginacion obligatoria.
+
+  P4 — Bajo
+    Condicion : Falla en subida de documentos.
+    Respuesta : Verificar IAM de GCS para ecodigital-backend-sa;
+                confirmar que GCS_BUCKET_NAME coincide con nombre
+                real del bucket.
+
+
+REGISTRO DE RIESGOS CONOCIDOS
+-------------------------------
+
+  Riesgo                               Impacto         Mitigacion
+  ------                               -------         ----------
+  Cloud Run + Cloud SQL: mismatch      BD inaccesible  Forzar DB_HOST (IP privada);
+  de estrategia de conexion                            validar con /ready probe
+  Variable GCS_BUCKET_NAME incorrecta  Falla de subida Estandarizar en Terraform y codigo
+  Cloud SQL tier costoso               Excede presup.  db-g1-small en dev/staging;
+                                                       Cloud Scheduler en produccion
+  Credenciales hardcoded en prod       Exposicion seg. Exclusivamente via Secret Manager
+  Bypass de soft delete via UI Frappe  Perdida datos   on_trash captura todo; Custom
+                                                       DocPerm bloquea hard delete por rol
+
+
+MODELO DE SOPORTE
+------------------
+
+  Horario              : 24/7 soporte remoto; presencial por cita
+  Canales              : Escritorio remoto, correo, WhatsApp (Fase 3)
+  Cuota de mantenimiento: $6,000 MXN / mes
+  Alcance              : Parches de seguridad, actualizaciones de
+                         dependencias, evolucion de funciones segun
+                         alcance acordado
+  SLA P1               : Respuesta dentro de 2 horas
+  SLA P2               : Respuesta dentro de 4 horas habiles
+
+
+--------------------------------------------------------------------------------
+13  GLOSARIO TECNICO
+--------------------------------------------------------------------------------
+
+API Gateway
+  Punto de entrada GCP que enruta trafico HTTPS a Cloud Run y termina TLS.
+  Perimetro de red publica del sistema. Aplica enforcement IAM en cada
+  solicitud antes de reenviarla al backend.
+
+Audit Log (WORM)
+  DocType tabAudit Log con allow_edit=0. Registra cada mutacion del sistema
+  con snapshots de estado anterior y posterior. Inmutable por diseno;
+  replicado a GCP Cloud Logging.
+
+bench
+  CLI de orquestacion de Frappe. Gestiona sitios, apps, migraciones de schema,
+  builds de assets y reinicios de procesos.
+
+Black.Editor
+  Editor PDF e IA asistida embebido en el Template Web. Soporta dictado,
+  traduccion y resumen via inyeccion IPC de IA.
+
+Black.View
+  Modulo visor de imagenes medicas dentro del Template Web. Integracion
+  MedGemma reservada para Fase 2+.
+
+BrowserView
+  API de Electron para renderizar contenido web en una vista subordinada
+  aislada del BrowserWindow principal. Base tecnica de las WebViews del Sidebar.
+
+Cloud Run
+  Runtime de contenedores serverless de GCP. Aloja el backend. Escala a cero
+  cuando esta inactivo; sin costo de computo sin trafico.
+
+Cloud SQL
+  Servicio de BD relacional gestionado de GCP. Aloja la instancia PostgreSQL 16.
+  Unico almacen de datos estructurados del sistema.
+
+Context Isolation
+  Propiedad de Electron (contextIsolation:true). Previene que el renderer
+  acceda a APIs de Node.js directamente. Hace de preload.js la unica
+  superficie IPC.
+
+DocType
+  Unidad de abstraccion del modelo de datos de Frappe. Corresponde a una
+  tabla de BD e incluye ORM, validacion, permisos y definiciones UI.
+
+Frozen Tab
+  Tab de Electron en background cuyo proceso renderizador esta suspendido
+  para liberar memoria. Se reactiva al volver a ser seleccionado.
+
+IPC (Inter-Process Communication)
+  Mecanismo de Electron para comunicacion entre proceso principal y renderer.
+  Expuesto via contextBridge en preload.js. Unico puente entre IA local y UI web.
+
+JWT (JSON Web Token)
+  Token de autenticacion sin estado emitido en login. Contiene identidad
+  y rol del usuario codificados. Validado en cada solicitud API por middleware
+  de Frappe.
+
+llama.cpp
+  Motor de inferencia en C++ para modelos LLM cuantizados. Backend de
+  ejecucion para Gemma 270M en el Desktop Shell via binding nativo Node.js.
+
+Nginx
+  Proxy inverso frente a la aplicacion Frappe. Maneja terminacion SSL y
+  enrutamiento interno en el entorno de servidor.
+
+PITR (Point-in-Time Recovery)
+  Capacidad de respaldo de Cloud SQL que permite restaurar la BD a cualquier
+  punto dentro del periodo de retencion WAL.
+
+RBAC (Role-Based Access Control)
+  Control de Acceso Basado en Roles. Aplicado en capa de API y capa de DocType.
+  Cuatro niveles: Admin Principal, Admin Secundario, Asistente, Invitado.
+
+Secret Manager
+  Servicio GCP para almacenar secretos cifrados. Inyectados como variables
+  de entorno al contenedor Cloud Run en el inicio via secret_key_ref Terraform.
+
+Sidebar
+  Panel lateral permanente del Desktop Shell. Contiene funciones fijas del
+  sistema (navegacion, modulos, apps nativas) y WebViews custom del usuario.
+
+Soft Delete
+  Patron de eliminacion donde los registros se marcan is_deleted=1 en vez de
+  borrarse fisicamente. Aplicado universalmente en todas las entidades.
+
+Sterling PDF
+  App nativa del Desktop Shell para edicion y visualizacion profesional de PDFs.
+  Invocada desde el Sidebar via IPC con cambio de vista del BrowserWindow.
+
+Terraform
+  Herramienta IaC que aprovisiona y gestiona todos los recursos GCP
+  de forma determinista desde configuracion declarativa.
+
+VPC Connector
+  Conector de Acceso VPC Serverless de GCP. Permite a Cloud Run comunicarse
+  con recursos en la red privada VPC, especificamente la IP privada de Cloud SQL.
+
+VolView 3D
+  App nativa del Desktop Shell para visualizacion medica 3D. Invocada desde
+  el Sidebar via IPC. Reemplaza el WebView principal al montarse.
+
+WebGPU
+  API de Node.js/browser para computo GPU acelerado. Ruta de inferencia
+  alternativa para Gemma 270M cuando hay GPU compatible disponible.
+
+WebView
+  Vista de navegador web embebida en el Desktop Shell. Base de las
+  integraciones de apps custom gestionadas por el usuario en el Sidebar.
+
+WORM (Write Once, Read Many)
+  Caracteristica de inmutabilidad de almacenamiento. Aplicada al tabAudit Log
+  y GCP Cloud Logging. Garantiza integridad del rastro de auditoria para
+  cumplimiento normativo clinico.
+
+
+================================================================================
+Fin del Documento
+EcoDigital / EcosSecial  |  Arquitectura Tecnica v2.0
+Referencia Interna de Ingenieria — Confidencial — dogma.black
+================================================================================
