@@ -1,0 +1,15 @@
+{
+  "extends": "./node_modules/volview/tsconfig",
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./*",
+        "./node_modules/volview/*"
+      ]
+    },
+  },
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.vue"
+  ]
+}

@@ -133,12 +133,10 @@ const paperBriefs = {
   '0': (
     <div className={articleWrapper}>
       <article className={article}>
-        <h1 className={title}>HOWTO: Be more productive</h1>
+        <h1 className={title}>CÓMO: Ser más productivo con Ecodigital</h1>
         <p className={text}>
-          “With all the time you spend watching TV,” he tells me, “you could
-          have written a novel by now.” It’s hard to disagree with the sentiment
-          — writing a novel is undoubtedly a better use of time than watching TV
-          — but what about the hidden ...
+          “Con todo el tiempo que pasas viendo la televisión”, me dice, “ya podrías
+          haber escrito una novela”. Es difícil no estar de acuerdo con el sentimiento...
         </p>
       </article>
     </div>
@@ -146,11 +144,10 @@ const paperBriefs = {
   '3': (
     <div className={articleWrapper}>
       <article className={article}>
-        <h1 className={title}>Breath of the Wild: Redefining Game Design</h1>
+        <h1 className={title}>Ecodigital: Redefiniendo la Gestión Médica</h1>
         <p className={text}>
-          At GDC 2017, Hidemaro Fujibayashi, Satoru Takizawa, and Takuhiro Dohta
-          from Nintendo shared their insights on The Legend of Zelda: Breath of
-          the Wild&apos;s groundbreaking game mechanics. One standout ...
+          Ecodigital ha sido diseñado para transformar la manera en que los
+          profesionales de la salud gestionan su práctica diaria. Una de las...
         </p>
       </article>
     </div>
@@ -158,15 +155,12 @@ const paperBriefs = {
   '2': (
     <div className={articleWrapper}>
       <article className={article}>
-        <h1 className={title}>Learning with retrieval practice</h1>
+        <h1 className={title}>Aprendizaje y Práctica con Ecodigital</h1>
         <p className={text}>
-          Are there any specific techniques to make the process of learning more
-          effective?
+          ¿Existen técnicas específicas para que el proceso de aprendizaje sea más efectivo?
         </p>
         <p className={text}>
-          Students often re-read, underline, or highlight materials, thinking
-          that it will help them learn better. But, the best method for really
-          ...
+          A menudo releemos o subrayamos materiales pensando que nos ayudará a aprender mejor...
         </p>
       </article>
     </div>
@@ -175,15 +169,13 @@ const paperBriefs = {
     <div className={articleWrapper}>
       <article className={article}>
         <h1 className={title}>
-          Local-first software
+          Software Local-first
           <br />
-          You own your data, in spite of the cloud
+          Tus datos te pertenecen, más allá de la nube
         </h1>
         <p className={text}>
-          Cloud apps like Google Docs and Trello are popular because they enable
-          real-time collaboration with colleagues, and they make it easy for us
-          to access our work from all of our devices. However, by centralizing
-          ...
+          Las aplicaciones en la nube son populares porque permiten la colaboración
+          en tiempo real. Sin embargo, al centralizar el almacenamiento...
         </p>
       </article>
     </div>
@@ -191,15 +183,13 @@ const paperBriefs = {
   '4': (
     <div className={articleWrapper}>
       <article className={article}>
-        <h1 className={title}>More Is Different</h1>
+        <h1 className={title}>Más es Diferente con Ecodigital</h1>
         <p className={text}>
-          Broken symmetry and the nature of the hierarchical structure of
-          science
+          Simetría rota y la naturaleza de la estructura jerárquica de la ciencia
         </p>
         <p className={text}>
-          The reductionist hypothesis may still be a topic for controversy among
-          philosophers, but among the great majority of active scientists I
-          think it is accepted without ...
+          La hipótesis reduccionista puede seguir siendo un tema de controversia,
+          pero entre la gran mayoría de los científicos activos creo que se acepta...
         </p>
       </article>
     </div>

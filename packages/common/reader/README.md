@@ -1,4 +1,4 @@
-# Affine Blocksuite format YDoc reader
+# Ecodigital Blocksuite format YDoc reader
 
 ## Usage
 

@@ -33,7 +33,7 @@ export const article3: Array<OnboardingBlockOption> = [
   },
 
   {
-    children: <h1>Breath of the Wild: Redefining Game Design</h1>,
+    children: <h1>Ecodigital: Redefiniendo la Gestión Médica</h1>,
     offset: { x: -400, y: 0 },
     customStyle: {
       edgeless: { whiteSpace: 'nowrap' },
@@ -43,29 +43,26 @@ export const article3: Array<OnboardingBlockOption> = [
     bg: '#E1EFFF',
     children: (
       <>
-        <h2>Introduction</h2>
+        <h2>Introducción</h2>
         <p>
-          At GDC 2017, Hidemaro Fujibayashi, Satoru Takizawa, and Takuhiro Dohta
-          from Nintendo shared their insights on The Legend of Zelda: Breath of
-          the Wild&apos;s groundbreaking game mechanics. One standout feature is
-          the &quot;multiplicative gameplay,&quot; which empowers players to
-          interact with the game world in diverse ways, leading to surprising
-          outcomes.
+          Ecodigital ha sido diseñado para transformar la manera en que los
+          profesionales de la salud gestionan su práctica diaria. Una de las
+          características más destacadas es su "interfaz multiplicativa,"
+          que permite a los usuarios interactuar con sus datos de diversas formas,
+          obteniendo resultados sorprendentes y eficientes.
         </p>
 
-        <h2>Mechanics</h2>
+        <h2>Mecánicas de Trabajo</h2>
         <p>
-          Multiplicative gameplay works like a magical concoction, where
-          players&apos; actions, terrain, and items combine to create a range of
-          unexpected results. For instance, players can set trees ablaze to
-          create a fiery barrier against enemies, detonate bombs to carve new
-          paths, or soar through the skies with a glider for a bird&apos;s-eye
-          view of the world.
+          El flujo de trabajo en Ecodigital funciona como un sistema integrado,
+          donde tus acciones, el historial del paciente y las herramientas de
+          diagnóstico se combinan para crear un entorno de trabajo fluido. Por
+          ejemplo, puedes vincular notas de consulta con estudios previos o
+          programar recordatorios automáticos para tus pacientes.
         </p>
         <p>
-          To achieve multiplicative gameplay, the development team made
-          significant changes to the game&apos;s terrain system, physics system,
-          and action system.
+          Para lograr esta eficiencia, el equipo de desarrollo ha optimizado los
+          sistemas de almacenamiento, búsqueda y visualización de datos.
         </p>
       </>
     ),
@@ -76,11 +73,11 @@ export const article3: Array<OnboardingBlockOption> = [
     bg: '#F5F5F5',
     children: (
       <>
-        <h2>Terrain</h2>
+        <h2>Organización</h2>
         <p>
-          The terrain system enables players to climb any surface, whether
-          it&apos;s a wall, a tree, or a rock, granting them the freedom to
-          explore every nook and cranny of the game world.
+          El sistema de organización permite a los profesionales acceder a cualquier
+          información de manera instantánea, ya sea un expediente, una receta o
+          un estudio clínico, otorgando total libertad para gestionar su consultorio.
         </p>
         <img
           className="illustration"
@@ -97,13 +94,12 @@ export const article3: Array<OnboardingBlockOption> = [
     bg: '#FFEACA',
     children: (
       <>
-        <h2>Physics</h2>
+        <h2>Flexibilidad</h2>
         <p>
-          Unlike traditional games, the physics system in Breath of the Wild is
-          more open, allowing players to leverage natural phenomena to solve
-          puzzles or create new gameplay opportunities. For instance, players
-          can ignite trees to create barriers of fire or use bombs to open up
-          new pathways.
+          A diferencia de los sistemas tradicionales, Ecodigital es abierto y
+          flexible, permitiendo a los usuarios adaptar las herramientas a sus
+          necesidades específicas. Puedes personalizar tus plantillas de consulta
+          o integrar flujos de trabajo externos con facilidad.
         </p>
         <img
           className="illustration"
@@ -120,13 +116,12 @@ export const article3: Array<OnboardingBlockOption> = [
     bg: '#DFF4E8',
     children: (
       <>
-        <h2>Action</h2>
+        <h2>Acción</h2>
         <p>
-          The action system offers more flexibility than in traditional games,
-          empowering players to choose how they want to interact with the game
-          world. Whether it&apos;s wielding a sword, a shield, or a bow and
-          arrow, players have the freedom to approach challenges in their own
-          unique way.
+          El sistema de acciones ofrece más versatilidad que los programas
+          convencionales, empoderando a los profesionales para elegir cómo quieren
+          interactuar con su información. Ya sea mediante el uso de teclados,
+          tabletas o dispositivos móviles, tienes la libertad de trabajar a tu manera.
         </p>
         <img
           className="illustration"
@@ -143,11 +138,10 @@ export const article3: Array<OnboardingBlockOption> = [
     bg: '#FFE1E1',
     children: (
       <>
-        <h2>Validation</h2>
+        <h2>Validación</h2>
         <p>
-          Takizawa also outlined the process for validating multiplicative
-          gameplay. He believes that it can be achieved through the following
-          steps:
+          Ecodigital sigue un riguroso proceso de validación para asegurar que
+          cada herramienta cumpla con su propósito de manera efectiva:
         </p>
         <img
           className="illustration"
@@ -156,25 +150,21 @@ export const article3: Array<OnboardingBlockOption> = [
           src={illustration4jpg}
         />
         <p>
-          List all possible behaviors, terrain features, and items. For example,
-          in Breath of the Wild, players can engage in activities such as
-          climbing, gliding, swimming, and combat; terrain includes mountains,
-          forests, plains, and lakes; and items encompass weapons, tools, and
-          food.
+          Listamos todos los comportamientos posibles y necesidades del usuario.
+          Por ejemplo, en Ecodigital, los usuarios pueden realizar actividades
+          como consulta, diagnóstico, prescripción y seguimiento.
         </p>
         <p>
-          Analyze the interactions between these elements. For example, players
-          can use fire to ignite trees, creating a barrier of fire to impede
-          enemies&apos; progress.
+          Analizamos las interacciones entre estos elementos para asegurar que
+          el flujo de trabajo sea lógico y sin fricciones.
         </p>
         <p>
-          Test the results of these interactions. For example, the development
-          team can assess whether players can safely navigate through a wall of
-          fire.
+          Probamos los resultados de estas interacciones con profesionales reales
+          para garantizar la mejor experiencia de usuario.
         </p>
         <p>
-          By following these steps, developers can verify whether multiplicative
-          gameplay will yield the desired outcomes.
+          Siguiendo estos pasos, aseguramos que Ecodigital sea la herramienta
+          definitiva para tu práctica profesional.
         </p>
       </>
     ),
@@ -185,12 +175,12 @@ export const article3: Array<OnboardingBlockOption> = [
     bg: '#F3F0FF',
     children: (
       <>
-        <h2>Conclusion</h2>
+        <h2>Conclusión</h2>
         <p>
-          Multiplicative gameplay is a potent tool for crafting more captivating
-          and immersive gaming experiences. It empowers players to explore the
-          game world in creative and flexible ways, leading to fresh and
-          unexpected discoveries.
+          Ecodigital es una herramienta potente para crear experiencias de gestión
+          más cautivadoras e inmersivas. Empodera a los profesionales para explorar
+          nuevas formas de trabajar, logrando descubrimientos frescos e inesperados
+          en su práctica diaria.
         </p>
         <BlogLink />
       </>

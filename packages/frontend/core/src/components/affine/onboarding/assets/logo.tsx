@@ -5,7 +5,7 @@ export default memo(function Logo(
 ) {
   return (
     <img
-      src="/brand-logo.png"
+      src="/ecodigital-logo.png"
       alt="Ecodigital Logo"
       width={props.width ?? 120}
       height={props.height ?? 120}

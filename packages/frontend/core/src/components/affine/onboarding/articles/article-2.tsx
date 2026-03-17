@@ -8,15 +8,14 @@ import { BlogLink } from './blog-link';
 
 export const article2: Array<OnboardingBlockOption> = [
   {
-    children: <h1>Learning with retrieval practice</h1>,
+    children: <h1>Aprendizaje y Práctica con Ecodigital</h1>,
     offset: { x: -824, y: 0 },
   },
   {
     bg: '#DFF4E8',
     children: (
       <h2>
-        Are there any specific techniques to make the process of learning more
-        effective?
+        ¿Existen técnicas específicas para que el proceso de aprendizaje sea más efectivo?
       </h2>
     ),
     offset: { x: -800, y: 100 },
@@ -27,10 +26,9 @@ export const article2: Array<OnboardingBlockOption> = [
     children: (
       <>
         <p>
-          Students often re-read, underline, or highlight materials, thinking
-          that it will help them learn better. But, the best method for really
-          turning information into long-term memory is to use what is called
-          ‘retrieval practice’.
+          A menudo releemos o subrayamos materiales pensando que nos ayudará a aprender mejor.
+          Sin embargo, el mejor método para convertir la información en memoria a largo plazo
+          es utilizar la “práctica de recuperación”.
         </p>
         <img
           className="illustration"
@@ -39,14 +37,9 @@ export const article2: Array<OnboardingBlockOption> = [
           src={illustration1png}
         />
         <p>
-          It simply means trying to retrieve the information from your own
-          brain, instead of looking at a sheet of paper. When you have really
-          learnt something, you’ve created sets of links between the neurons in
-          long-term memory. Each time you tug on those sets of links and bring
-          them back to mind from your memory, you strengthen them. This is why,
-          using flashcards, teaching others, or trying to retrieve key ideas
-          from your own mind, after having glanced at a page or your notes, can
-          be valuable.
+          Simplemente significa intentar recuperar la información de tu propio cerebro en lugar
+          de mirar una hoja de papel. Cada vez que traes esas ideas a la mente, las fortaleces.
+          Ecodigital te ayuda a organizar tus notas y conocimientos para facilitar este proceso.
         </p>
       </>
     ),
@@ -55,7 +48,7 @@ export const article2: Array<OnboardingBlockOption> = [
 
   {
     bg: '#FFF4D8',
-    children: <h2>How can a student learn more effectively?</h2>,
+    children: <h2>¿Cómo aprender de manera más efectiva?</h2>,
     offset: { x: 100, y: -300 },
   },
 
@@ -64,16 +57,11 @@ export const article2: Array<OnboardingBlockOption> = [
     children: (
       <>
         <p>
-          The best method for more efficient learning is to avoid multitasking.
-          The Pomodoro Technique helps with this. To do a Pomodoro, just put
-          away all distractions (no pop-upson your computer or dings from your
-          phone!), set a timer for 25 minutes, and focus as fully as you can for
-          those 25 minutes, bringing your thoughts back to the task if you find
-          them wandering. At the end of the 25 minutes, give yourself a
-          five-minutes break and do not indulge in anything where you have to
-          focus on (no checking e-mails, for example – but making a cup of tea
-          is just fine). Repeat the Pomodoro/break three or four times, and
-          then, take a 30-minutes break – or wrap your studies up for the day!
+          El mejor método para un aprendizaje eficiente es evitar la multitarea. La Técnica
+          Pomodoro ayuda con esto. Para realizar un Pomodoro, simplemente elimina todas las
+          distracciones, pon un temporizador de 25 minutos y concéntrate plenamente.
+          Ecodigital ofrece un entorno limpio y sin distracciones para que puedas enfocarte
+          en lo que realmente importa.
         </p>
         <img
           className="illustration"
@@ -90,28 +78,17 @@ export const article2: Array<OnboardingBlockOption> = [
     bg: '#DFF4F3',
     children: (
       <>
-        <h2>How can students remember more and forget less?</h2>
+        <h2>¿Cómo recordar más y olvidar menos?</h2>
         <p>
-          We all wish we had much better memories, but, if you remember too
-          perfectly, it makes it harder to revisit and update your learning – to
-          be more flexible on the face of new information, or to change and
-          adapt if you’ve got something wrong. If you want to remember more,
-          retrieval practice with spaced repetition, that is, spacing your
-          retrieval practice out over a number of days – is your best bet.
-          Researchers sug-gest that you should retrieve the information when you
-          are about to forget it, which is a tricky bit of timing to figure out.
+          Si quieres recordar más, la práctica de recuperación con repetición espaciada es tu
+          mejor opción. Ecodigital te permite estructurar tu información de manera que sea
+          fácil de revisar y actualizar, adaptándote a nueva información o corrigiendo errores.
         </p>
-        <h2>How can we make online learning more effective for students?</h2>
+        <h2>¿Cómo hacer que el aprendizaje digital sea más efectivo?</h2>
         <p>
-          It can be hard to write a textbook for a class; so, most professors
-          use professional textbooks to supplement their teachings. Similarly,
-          it can be hard to create high-quality video materials. I believe
-          online teaching will continue to become more common post-COVID – the
-          genie is out of the bottle as, now, students realise that online
-          learning can be more convenient than face-to-face classes. But,
-          students still like their teachers – real professors, who they can
-          interact with. So, real face-to-face instructors will always have a
-          place.
+          El aprendizaje digital es cada vez más común por su conveniencia. Ecodigital potencia
+          esta experiencia al proporcionar herramientas interactivas que facilitan la
+          comunicación y el intercambio de conocimientos entre profesionales y estudiantes.
         </p>
       </>
     ),
@@ -123,18 +100,13 @@ export const article2: Array<OnboardingBlockOption> = [
     children: (
       <>
         <h2>
-          Do you think students should use social media, like YouTube, for
-          learning?
+          Uso de medios digitales para el aprendizaje
         </h2>
         <p>
-          There are some excellent learning materials available on YouTube, but,
-          students may have to spend a lot of time wading through the dreck to
-          find what they are looking for. Students – and all of us – need to be
-          a little wary of spending too much time on social media. It can be the
-          equivalent of parking yourself in front of the television and
-          indulging in hours of mindless entertainment – except that social
-          media can also be an echo chamber that can push us to unwittingly
-          become more extreme in our beliefs.
+          Hay excelentes materiales disponibles en línea, pero debemos ser cautelosos con el
+          tiempo que pasamos en redes sociales. Ecodigital te ayuda a filtrar el ruido y
+          centrarte en el contenido de valor, creando un espacio de trabajo dedicado y
+          profesional.
         </p>
         <BlogLink />
       </>

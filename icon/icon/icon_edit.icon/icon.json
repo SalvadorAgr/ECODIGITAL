@@ -1,0 +1,83 @@
+{
+  "color-space-for-untagged-svg-colors" : "display-p3",
+  "fill-specializations" : [
+    {
+      "value" : {
+        "linear-gradient" : [
+          "gray:0.00000,1.00000",
+          "display-p3:0.05940,0.05998,0.05998,1.00000"
+        ],
+        "orientation" : {
+          "start" : {
+            "x" : 0.5,
+            "y" : 0
+          },
+          "stop" : {
+            "x" : 0.5,
+            "y" : 0.7
+          }
+        }
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "solid" : "extended-gray:0.00000,1.00000"
+      }
+    }
+  ],
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "20260317_0149_Image Generation_remix_01kkxc8r5gegs8y7m2sss62ja5.png",
+          "name" : "20260317_0149_Image Generation_remix_01kkxc8r5gegs8y7m2sss62ja5",
+          "opacity" : 0.71,
+          "position" : {
+            "scale" : 0.66,
+            "translation-in-points" : [
+              0,
+              -15
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "ECO-LOGO (1).png",
+          "name" : "ECO-LOGO (1)",
+          "opacity" : 0.92,
+          "position" : {
+            "scale" : 0.57,
+            "translation-in-points" : [
+              0,
+              -34
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "fondo logo.png",
+          "name" : "fondo logo"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "iOS",
+      "macOS"
+    ]
+  }
+}

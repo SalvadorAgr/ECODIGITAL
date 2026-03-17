@@ -1,4 +1,38 @@
-// Import is already correct, no changes needed
+/**
+ * ============================================================================
+ * ECODIGITAL - ROOT APP SIDEBAR WITH IMMUTABLE NAVIGATION
+ * ============================================================================
+ *
+ * ARCHIVO: index.tsx
+ * PROPÓSITO: Sidebar principal con navegación inmutable
+ * SEGURIDAD: Navegación fija con protección a nivel de sistema
+ *
+ * IMPORTANTE:
+ * - Los 13 elementos de navegación inmutables están bloqueados permanentemente
+ * - Los usuarios finales tienen privilegios NULOS de eliminación/modificación
+ * - La configuración inmutable está definida en 'immutable-navigation-config.ts'
+ *
+ * ORDEN SECUENCIAL EXACTO DE ELEMENTOS INMUTABLES:
+ * 1. Home
+ * 2. Cloud
+ * 3. Tareas
+ * 4. Al Chat
+ * 5. Agenda
+ * 6. Metricas
+ * 7. Archivos
+ * 8. Registros
+ * 9. Calendario
+ * 10. VolView 3D
+ * 11. Al Work flow
+ * 12. Sterling PDF
+ * 13. Configuración
+ *
+ * ============================================================================
+ * ÚLTIMA ACTUALIZACIÓN: 2026-03-17
+ * AUTOR: DevOps Automation Specialist
+ * ============================================================================
+ */
+
 import {
   AddPageButton,
   AppDownloadButton,
@@ -38,7 +72,7 @@ import {
 import { useLiveData, useService, useServices } from '@toeverything/infra';
 import type { ReactElement } from 'react';
 import type { SVGAttributes } from 'react';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 
 import {
   CollapsibleSection,
@@ -59,6 +93,12 @@ import {
   workspaceAndUserWrapper,
   workspaceWrapper,
 } from './index.css';
+import {
+  initializeImmutableNavigation,
+  validateNavigationIntegrity,
+  IMMUTABLE_NAVIGATION_ITEMS,
+  NAVIGATION_PROTECTION_ERRORS,
+} from './immutable-navigation-config';
 import { InviteMembersButton } from './invite-members-button';
 import { AppSidebarJournalButton } from './journal-button';
 import { NotificationButton } from './notification-button';
@@ -157,9 +197,35 @@ const SidebarModuleLink = ({
 };
 
 /**
- * This is for the whole affine app sidebar.
- * This component wraps the app sidebar in `@affine/component` with logic and data.
+ * ============================================================================
+ * IMMUTABLE NAVIGATION SIDEBAR COMPONENT
+ * ============================================================================
  *
+ * Este componente implementa los 13 elementos de navegación inmutables
+ * en el orden secuencial exacto especificado, manteniendo los elementos
+ * existentes organizados por grupos.
+ *
+ * ORDEN SECUENCIAL EXACTO DE ELEMENTOS INMUTABLES:
+ * 1. Home          - Grupo: principal
+ * 2. Cloud         - Grupo: principal
+ * 3. Tareas        - Grupo: operations
+ * 4. Al Chat       - Grupo: operations
+ * 5. Agenda        - Grupo: operations
+ * 6. Metricas      - Grupo: operations
+ * 7. Archivos      - Grupo: tools
+ * 8. Registros     - Grupo: tools
+ * 9. Calendario    - Grupo: tools
+ * 10. VolView 3D   - Grupo: tools
+ * 11. Al Work flow - Grupo: tools
+ * 12. Sterling PDF - Grupo: tools
+ * 13. Configuración - Grupo: system
+ *
+ * PROTECCIÓN:
+ * - Los elementos inmutables NO pueden ser eliminados por usuarios finales
+ * - Los elementos inmutables NO pueden ser modificados por usuarios finales
+ * - La integridad se valida al inicio de la aplicación
+ *
+ * ============================================================================
  */
 export const RootAppSidebar = memo((): ReactElement => {
   const { workbenchService, cMDKQuickSearchService, authService } = useServices(
@@ -169,6 +235,21 @@ export const RootAppSidebar = memo((): ReactElement => {
       AuthService,
     }
   );
+
+  // ============================================================================
+  // VALIDACIÓN DE INTEGRIDAD DE NAVEGACIÓN INMUTABLE
+  // Se ejecuta una vez al montar el componente
+  // ============================================================================
+  useEffect(() => {
+    // Validar integridad de la navegación inmutable al inicio
+    if (!validateNavigationIntegrity()) {
+      console.error('[IMMUTABLE_NAV] CRITICAL: Navigation integrity validation failed!');
+      console.error(NAVIGATION_PROTECTION_ERRORS.INTEGRITY_VIOLATION);
+      // En producción, esto debería disparar una alerta de seguridad
+    }
+    // Inicializar el sistema de navegación inmutable
+    initializeImmutableNavigation();
+  }, []);
 
   const sessionStatus = useLiveData(authService.session.status$);
   const t = useI18n();
@@ -234,6 +315,9 @@ export const RootAppSidebar = memo((): ReactElement => {
   return (
     <AppSidebar>
       <SidebarContainer>
+        {/* ============================================================================ */}
+        {/* SECCIÓN SUPERIOR: Selector de workspace y búsqueda */}
+        {/* ============================================================================ */}
         <div className={workspaceAndUserWrapper}>
           <div className={workspaceWrapper}>
             <WorkspaceNavigator
@@ -254,36 +338,49 @@ export const RootAppSidebar = memo((): ReactElement => {
           />
           <AddPageButton />
         </div>
+
+        {/* ============================================================================ */}
+        {/* ELEMENTOS INMUTABLES - GRUPO PRINCIPAL (1-2) */}
+        {/* Orden secuencial exacto: Home, Cloud */}
+        {/* PROTEGIDO: Solo lectura - Sin permisos de modificación/eliminación */}
+        {/* ============================================================================ */}
+        {/* 1. Home - Elemento inmutable */}
         <AllDocsButton />
-        <AppSidebarJournalButton />
-        {sessionStatus === 'authenticated' && <NotificationButton />}
-        <AIChatButton />
-      </SidebarContainer>
-      <SidebarScrollableContainer>
-        {/* EcoDigital fixed modules (El Consultorio) - add only, grouped and native (no replacement). */}
+        {/* 2. Cloud - Elemento inmutable */}
+        <SidebarModuleLink
+          testId="slider-bar-cloud-button"
+          icon={<CloudWorkspaceIcon />}
+          to={'/cloud'}
+          label={'Cloud'}
+        />
+
+        {/* ============================================================================ */}
+        {/* ELEMENTOS INMUTABLES - GRUPO OPERATIONS (3-6) */}
+        {/* Orden secuencial exacto: Tareas, Al Chat, Agenda, Metricas */}
+        {/* PROTEGIDO: Solo lectura - Sin permisos de modificación/eliminación */}
+        {/* ============================================================================ */}
         <CollapsibleSection
-          path={['consultorio', 'operations']}
+          path={['immutable', 'operations']}
           title={'Operations'}
           contentStyle={{ padding: '6px 8px 0 8px' }}
         >
+          {/* 3. Tareas - Elemento inmutable */}
           <SidebarModuleLink
             testId="slider-bar-tasks-button"
             icon={<CheckBoxCheckLinearIcon />}
             to={'/tasks'}
             label={'Tareas'}
           />
+          {/* 4. Al Chat - Elemento inmutable */}
+          <AIChatButton />
+          {/* 5. Agenda - Elemento inmutable */}
           <SidebarModuleLink
             testId="slider-bar-agenda-button"
             icon={<BookPanelIcon />}
             to={'/appointments'}
             label={'Agenda'}
           />
-          <SidebarModuleLink
-            testId="slider-bar-calendar-button"
-            icon={<CalendarPanelIcon />}
-            to={'/calendar'}
-            label={'Calendario'}
-          />
+          {/* 6. Metricas - Elemento inmutable */}
           <SidebarModuleLink
             testId="slider-bar-metrics-button"
             icon={<ChartPanelIcon />}
@@ -292,23 +389,52 @@ export const RootAppSidebar = memo((): ReactElement => {
           />
         </CollapsibleSection>
 
+        {/* ============================================================================ */}
+        {/* ELEMENTOS INMUTABLES - GRUPO TOOLS (7-12) */}
+        {/* Orden secuencial exacto: Archivos, Registros, Calendario, VolView 3D, Al Work flow, Sterling PDF */}
+        {/* PROTEGIDO: Solo lectura - Sin permisos de modificación/eliminación */}
+        {/* ============================================================================ */}
         <CollapsibleSection
-          path={['consultorio', 'tools']}
+          path={['immutable', 'tools']}
           title={'Tools'}
           contentStyle={{ padding: '6px 8px 0 8px' }}
         >
+          {/* 7. Archivos - Elemento inmutable */}
+          <SidebarModuleLink
+            testId="slider-bar-files-button"
+            icon={<FolderPanelIcon />}
+            to={'/files'}
+            label={'Archivos'}
+          />
+          {/* 8. Registros - Elemento inmutable */}
+          <SidebarModuleLink
+            testId="slider-bar-records-button"
+            icon={<HistoryIcon />}
+            to={'/admin/logs'}
+            label={'Registros'}
+          />
+          {/* 9. Calendario - Elemento inmutable */}
+          <SidebarModuleLink
+            testId="slider-bar-calendar-button"
+            icon={<CalendarPanelIcon />}
+            to={'/calendar'}
+            label={'Calendario'}
+          />
+          {/* 10. VolView 3D - Elemento inmutable */}
           <SidebarModuleLink
             testId="slider-bar-volview-button"
             icon={<CubePanelIcon />}
             to={'/volview'}
             label={'VolView 3D'}
           />
+          {/* 11. Al Work flow - Elemento inmutable */}
           <SidebarModuleLink
             testId="slider-bar-ai-workflow-button"
             icon={<AutoTidyUpIcon />}
             to={'/ai-workflow'}
-            label={'AI Workflow'}
+            label={'Al Work flow'}
           />
+          {/* 12. Sterling PDF - Elemento inmutable */}
           <SidebarModuleLink
             testId="slider-bar-stirling-pdf-button"
             icon={<ExportToPdfIcon />}
@@ -317,18 +443,38 @@ export const RootAppSidebar = memo((): ReactElement => {
           />
         </CollapsibleSection>
 
+        {/* ============================================================================ */}
+        {/* ELEMENTOS EXISTENTES - Navegación dinámica del usuario */}
+        {/* Estos elementos NO son inmutables y pueden ser personalizados */}
+        {/* ============================================================================ */}
+        <AppSidebarJournalButton />
+        {sessionStatus === 'authenticated' && <NotificationButton />}
+      </SidebarContainer>
+
+      <SidebarScrollableContainer>
+        {/* ============================================================================ */}
+        {/* ELEMENTOS DINÁMICOS - Favoritos, Organización, Tags, Colecciones */}
+        {/* Estos elementos son personalizables por el usuario */}
+        {/* ============================================================================ */}
         <NavigationPanelFavorites />
         <NavigationPanelOrganize />
         <NavigationPanelMigrationFavorites />
         <NavigationPanelTags />
         <NavigationPanelCollections />
+
+        {/* ============================================================================ */}
+        {/* ELEMENTOS INMUTABLES - GRUPO SYSTEM (13) */}
+        {/* Orden secuencial exacto: Configuración */}
+        {/* PROTEGIDO: Solo lectura - Sin permisos de modificación/eliminación */}
+        {/* ============================================================================ */}
         <CollapsibleSection
-          path={['consultorio', 'system']}
+          path={['immutable', 'system']}
           title={'System'}
           contentStyle={{ padding: '6px 8px 0 8px' }}
         >
+          {/* 13. Configuración - Elemento inmutable */}
           <MenuItem
-            data-testid="slider-bar-workspace-setting-button"
+            data-testid="slider-bar-settings-button"
             icon={<SettingsIcon />}
             onClick={onOpenSettingModal}
             style={{ paddingTop: 15, paddingBottom: 15 }}
@@ -337,25 +483,12 @@ export const RootAppSidebar = memo((): ReactElement => {
               {t['com.affine.settingSidebar.title']()}
             </span>
           </MenuItem>
-          <SidebarModuleLink
-            testId="slider-bar-cloud-button"
-            icon={<CloudWorkspaceIcon />}
-            to={'/cloud'}
-            label={'Cloud'}
-          />
-          <SidebarModuleLink
-            testId="slider-bar-files-button"
-            icon={<FolderPanelIcon />}
-            to={'/files'}
-            label={'Archivos'}
-          />
-          <SidebarModuleLink
-            testId="slider-bar-records-button"
-            icon={<HistoryIcon />}
-            to={'/admin/logs'}
-            label={'Registros'}
-          />
         </CollapsibleSection>
+
+        {/* ============================================================================ */}
+        {/* ELEMENTOS ADICIONALES EXISTENTES - Sección Others */}
+        {/* Estos elementos NO son inmutables y se mantienen como estaban */}
+        {/* ============================================================================ */}
         <CollapsibleSection
           path={['others']}
           title={t['com.affine.rootAppSidebar.others']()}
@@ -378,6 +511,10 @@ export const RootAppSidebar = memo((): ReactElement => {
           />
         </CollapsibleSection>
       </SidebarScrollableContainer>
+
+      {/* ============================================================================ */}
+      {/* CONTENEDOR INFERIOR - Reproductor de audio y actualizaciones */}
+      {/* ============================================================================ */}
       <SidebarContainer className={bottomContainer}>
         <SidebarAudioPlayer />
         {BUILD_CONFIG.isElectron ? <UpdaterButton /> : <AppDownloadButton />}

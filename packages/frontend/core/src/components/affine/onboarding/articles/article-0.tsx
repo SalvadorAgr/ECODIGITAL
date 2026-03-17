@@ -7,7 +7,7 @@ import { BlogLink } from './blog-link';
 
 export const article0: Array<OnboardingBlockOption> = [
   {
-    children: <h1>HOWTO: Be more productive</h1>,
+    children: <h1>CÓMO: Ser más productivo con Ecodigital</h1>,
     offset: { x: -150, y: 0 },
   },
   {
@@ -15,20 +15,19 @@ export const article0: Array<OnboardingBlockOption> = [
     children: (
       <>
         <p>
-          “With all the time you spend watching TV,” he tells me, “you could
-          have written a novel by now.” It’s hard to disagree with the sentiment
-          — writing a novel is undoubtedly a better use of time than watching TV
-          — but what about the hidden assumption? Such comments imply that time
-          is “fungible” — that time spent watching TV can just as easily be
-          spent writing a novel. And sadly, that’s just not the case.
+          “Con todo el tiempo que pasas viendo la televisión”, me dice, “ya podrías
+          haber escrito una novela”. Es difícil no estar de acuerdo con el sentimiento:
+          escribir una novela es, sin duda, un mejor uso del tiempo que ver la televisión,
+          pero ¿qué pasa con la suposición oculta? Tales comentarios implican que el tiempo
+          es “fungible”, que el tiempo dedicado a ver la televisión puede emplearse con la
+          misma facilidad en escribir una novela. Y, lamentablemente, ese no es el caso.
         </p>
         <p>
-          Time has various levels of quality. If I’m walking to the subway
-          station and I’ve forgotten my notebook, then it’s pretty hard for me
-          to write more than a couple paragraphs. And it’s tough to focus when
-          you keep getting interrupted. There’s also a mental component:
-          sometimes I feel happy and motivated and ready to work on something,
-          but other times I feel so sad and tired I can only watch TV.
+          El tiempo tiene varios niveles de calidad. Si voy caminando a la estación del metro
+          y he olvidado mi cuaderno, me resulta bastante difícil escribir más de un par de
+          párrafos. Y es difícil concentrarse cuando te interrumpen constantemente. También
+          hay un componente mental: a veces me siento feliz, motivado y listo para trabajar
+          en algo, pero otras veces me siento tan cansado que solo puedo ver la televisión.
         </p>
       </>
     ),
@@ -38,7 +37,7 @@ export const article0: Array<OnboardingBlockOption> = [
         <CounterNote
           index={1}
           width={290}
-          label="Time isn't interchangeable; it varies in quality due to circumstances and mental states."
+          label="El tiempo no es intercambiable; su calidad varía según las circunstancias y el estado mental."
           animationDelay={300}
           color="#6E52DF"
         />
@@ -58,11 +57,11 @@ export const article0: Array<OnboardingBlockOption> = [
       <>
         <img draggable={false} width="100%" src={bookmark1png} />
         <p>
-          If you want to be more productive then, you have to recognize this
-          fact and deal with it. First, you have to make the best of each kind
-          of time. And second, you have to try to make your time higher-quality.
+          Si quieres ser más productivo, debes reconocer este hecho y lidiar con él.
+          Primero, tienes que aprovechar al máximo cada tipo de tiempo. Y segundo,
+          debes intentar que tu tiempo sea de mayor calidad utilizando herramientas como Ecodigital.
         </p>
-        <h3>Spend time efficiently</h3>
+        <h3>Usa tu tiempo eficientemente</h3>
       </>
     ),
     offset: { x: 250, y: 100 },
@@ -72,23 +71,19 @@ export const article0: Array<OnboardingBlockOption> = [
     bg: '#E1EFFF',
     children: (
       <>
-        <h2>Choose good problems</h2>
+        <h2>Elige buenos problemas</h2>
         <p>
-          Life is short (or so I’m told) so why waste it doing something dumb?
-          It’s easy to start working on something because it’s convenient, but
-          you should always be questioning yourself about it. Is there something
-          more important you can work on? Why don’t you do that instead? Such
-          questions are hard to face up to (eventually, if you follow this rule,
-          you’ll have to ask yourself why you’re not working on the most
-          important problem in the world) but each little step makes you more
-          productive.
+          La vida es corta, ¿por qué desperdiciarla haciendo algo irrelevante? Es fácil
+          empezar a trabajar en algo porque es conveniente, pero siempre deberías
+          cuestionarte al respecto. ¿Hay algo más importante en lo que puedas trabajar?
+          ¿Por qué no haces eso en su lugar? Estas preguntas son difíciles de afrontar,
+          pero cada pequeño paso te hace más productivo en Ecodigital.
         </p>
         <p>
           <em style={{ background: '#ADF8E9' }}>
-            This isn’t to say that all your time should be spent on the most
-            important problem in the world. Mine certainly isn’t (after all, I’m
-            writing this essay). But it’s definitely the standard against which
-            I measure my life.
+            Esto no quiere decir que todo tu tiempo deba dedicarse al problema más
+            importante del mundo. El mío ciertamente no lo es. Pero es definitivamente
+            el estándar con el que mido mi vida.
           </em>
         </p>
       </>
@@ -99,7 +94,7 @@ export const article0: Array<OnboardingBlockOption> = [
         <CounterNote
           index={2}
           width={290}
-          label="Prioritize, question, and work towards productivity."
+          label="Prioriza, cuestiona y trabaja hacia una productividad real."
           animationDelay={800}
           color="#6E52DF"
         />
@@ -115,31 +110,17 @@ export const article0: Array<OnboardingBlockOption> = [
     bg: '#DFF4E8',
     children: (
       <>
-        <h2>Have a bunch of them</h2>
+        <h2>Ten varios proyectos</h2>
         <p>
-          Another common myth is that you’ll get more done if you pick one
-          problem and focus on it exclusively. I find this is hardly ever true.
-          Just this moment for example, I’m trying to fix my posture, exercise
-          some muscles, drink some fluids, clean off my desk, IM with my
-          brother, and write this essay. Over the course the day, I’ve worked on
-          this essay, read a book, had some food, answered some email, chatted
-          with friends, done some shopping, worked on a couple other essays,
-          backed up my hard drive, and organized my book list. In the past week
-          I’ve worked on several different software projects, read several
-          different books, studied a couple different programming languages,
-          moved some of my stuff, and so on.
+          Otro mito común es que harás más si eliges un solo problema y te enfocas en él
+          exclusivamente. Casi nunca es cierto. Tener muchos proyectos diferentes te da
+          trabajo para diferentes calidades de tiempo. Además, tendrás otras cosas en las
+          que trabajar si te bloqueas o te aburres.
         </p>
         <p>
-          Having a lot of different projects gives you work for different
-          qualities of time. Plus, you’ll have other things to work on if you
-          get stuck or bored (and that can give your mind time to unstick
-          yourself).
-        </p>
-        <p>
-          It also makes you more creative. Creativity comes from applying things
-          you learn in other fields to the field you work in. If you have a
-          bunch of different projects going in different fields, then you have
-          many more ideas you can apply.
+          Ecodigital te permite organizar estos múltiples flujos de trabajo de manera
+          coherente, fomentando la creatividad al aplicar lo que aprendes en un campo
+          a otro.
         </p>
       </>
     ),
@@ -149,7 +130,7 @@ export const article0: Array<OnboardingBlockOption> = [
         <CounterNote
           index={3}
           width={290}
-          label="Diverse tasks enhance productivity, creativity, and combat boredom effectively."
+          label="Tareas diversas mejoran la productividad, la creatividad y combaten el aburrimiento."
           animationDelay={1200}
           color="#6E52DF"
         />
@@ -165,27 +146,16 @@ export const article0: Array<OnboardingBlockOption> = [
     bg: '#DFF4F3',
     children: (
       <>
-        <h2>Make a list</h2>
+        <h2>Haz una lista</h2>
         <p>
-          Coming up with a bunch of different things to work on shouldn’t be
-          hard — most people have tons of stuff they want to get done. But if
-          you try to keep it all in your head it quickly gets overwhelming. The
-          psychic pressure of having to remember all of it can make you crazy.
-          The solution is again simple: write it down.
+          Idear varias cosas en las que trabajar no debería ser difícil. Pero si intentas
+          mantenerlo todo en tu cabeza, rápidamente se vuelve abrumador. La solución es
+          simple: escríbelo en Ecodigital.
         </p>
         <p>
-          Once you have a list of all the things you want to do, you can
-          organize it by kind. For example, my list is programming, writing,
-          thinking, errands, reading, listening, and watching (in that order).
-        </p>
-        <p>
-          Most major projects involve a bunch of these different tasks. Writing
-          this, for example, involves reading about other procrastination
-          systems, thinking up new sections of the article, cleaning up
-          sentences, emailing people with questions, and so on, all in addition
-          to the actual work of writing the text. Each task can go under the
-          appropriate section, so that you can do it when you have the right
-          kind of time.
+          Una vez que tengas una lista de todo lo que quieres hacer, puedes organizarla
+          por tipo. Ecodigital facilita esta clasificación para que puedas realizar cada
+          tarea cuando tengas el tipo de tiempo adecuado.
         </p>
       </>
     ),
@@ -195,7 +165,7 @@ export const article0: Array<OnboardingBlockOption> = [
         <CounterNote
           index={4}
           width={290}
-          label="Organize tasks by category to manage overwhelming to-do lists efficiently."
+          label="Organiza tareas por categoría para gestionar listas abrumadoras eficientemente."
           animationDelay={1500}
           color="#6E52DF"
         />
@@ -208,7 +178,6 @@ export const article0: Array<OnboardingBlockOption> = [
   },
 
   {
-    // children: <Article0Bookmark2 />,
     children: <img draggable={false} width={418} src={bookmark2png} />,
     edgelessOnly: true,
     position: { x: 700, y: 230 },
@@ -219,32 +188,12 @@ export const article0: Array<OnboardingBlockOption> = [
     bg: '#FFE1E1',
     children: (
       <>
-        <h2>Integrate the list with your life</h2>
+        <h2>Integra la lista en tu vida</h2>
         <p>
-          Once you have this list, the problem becomes remembering to look at
-          it. And the best way to remember to look at it is to make looking at
-          it what you would do anyway. For example, I keep a stack of books on
-          my desk, with the ones I’m currently reading on top. When I need a
-          book to read, I just grab the top one off the stack.
-        </p>
-        <p>
-          I do the same thing with TV/movies. Whenever I hear about a movie I
-          should watch, I put it in a special folder on my computer. Now
-          whenever I feel like watching TV, I just open up that folder.
-        </p>
-        <p>
-          I’ve also thought about some more intrusive ways of doing this. For
-          example, a web page that pops up with a list of articles in my “to
-          read” folder whenever I try to check some weblogs. Or maybe even a
-          window that pops up with work suggestions occasionally for me to see
-          when I’m goofing off.
-        </p>
-        <p>
-          Making the best use of the time you have can only get you so far. The
-          much more important problem is making more higher quality time for
-          yourself. Most people’s time is eaten up by things like school and
-          work. Obviously if you attend one of these, you should stop. But what
-          else can you do?
+          Una vez que tengas esta lista en Ecodigital, el problema es recordar mirarla.
+          La mejor manera es hacer que consultarla sea parte de tu rutina natural.
+          Aprovechar al máximo el tiempo que tienes es solo el principio; el problema
+          más importante es crear más tiempo de alta calidad para ti mismo.
         </p>
         <BlogLink />
       </>
@@ -255,7 +204,7 @@ export const article0: Array<OnboardingBlockOption> = [
         <CounterNote
           index={5}
           width={290}
-          label="Integrate tasks into daily routines, create more high-quality free time."
+          label="Integra tareas en rutinas diarias y crea más tiempo libre de calidad."
           animationDelay={1500}
           color="#6E52DF"
         />
@@ -268,7 +217,6 @@ export const article0: Array<OnboardingBlockOption> = [
   },
 
   {
-    // children: <Article0Embed1 />,
     children: <img draggable={false} width={450} src={embed1png} />,
     edgelessOnly: true,
     position: { x: 1050, y: 630 },

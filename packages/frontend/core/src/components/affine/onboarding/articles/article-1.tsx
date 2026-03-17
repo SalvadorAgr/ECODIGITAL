@@ -11,25 +11,22 @@ import { BlogLink } from './blog-link';
 
 export const article1: Array<OnboardingBlockOption> = [
   {
-    children: <h1>This is Local-first software</h1>,
+    children: <h1>Software Local-first con Ecodigital</h1>,
     offset: { x: -600, y: 0 },
   },
   {
     bg: '#F5F5F5',
     children: (
       <>
-        <h2>Local-first software</h2>
-        <h3>You own your data, in spite of the cloud</h3>
+        <h2>Privacidad y Control Total</h2>
+        <h3>Tus datos te pertenecen, más allá de la nube</h3>
         <p>
-          Cloud apps like <a className={link}>Google Docs</a> and{' '}
-          <a className={link}>Trello</a> are popular because they enable
-          real-time collaboration with colleagues, and they make it easy for us
-          to access our work from all of our devices. However, by centralizing
-          data storage on servers, cloud apps also take away ownership and
-          agency from users.{' '}
+          Las aplicaciones en la nube son populares porque permiten la colaboración
+          en tiempo real. Sin embargo, al centralizar el almacenamiento, estas apps
+          suelen quitarle la propiedad y el control a los usuarios.{' '}
           <b>
-            If a service shuts down, the software stops functioning, and data
-            created with that software is lost.
+            En Ecodigital, si el servicio se interrumpe, el software sigue funcionando
+            y tus datos permanecen seguros en tu dispositivo.
           </b>
         </p>
       </>
@@ -40,7 +37,7 @@ export const article1: Array<OnboardingBlockOption> = [
         <CounterNote
           index={1}
           width={500}
-          label="Cloud apps enable collaboration but can jeopardize data ownership; time varies."
+          label="Ecodigital garantiza la propiedad de los datos y la continuidad del trabajo sin depender de la conexión."
           animationDelay={300}
           color="#E660A4"
         />
@@ -58,13 +55,12 @@ export const article1: Array<OnboardingBlockOption> = [
       <>
         <img draggable={false} width="100%" src={bookmark1png} />
         <p className={clsx(quote)}>
-          If you are an entrepreneur interested in building developer
-          infrastructure, all of the above suggests an interesting market
-          opportunity: “Firebase for CRDTs.”
+          Ecodigital utiliza tecnología de vanguardia para asegurar que la
+          colaboración sea fluida pero siempre privada y bajo tu control.
         </p>
         <p>
-          In this article we propose <PageLink>local-first software</PageLink>{' '}
-          of principles for software that enables both collaboration
+          En este recorrido exploraremos los principios del <PageLink>software local-first</PageLink>{' '}
+          que hacen de Ecodigital la herramienta más segura para tu consultorio.
         </p>
       </>
     ),
@@ -74,7 +70,7 @@ export const article1: Array<OnboardingBlockOption> = [
         <CounterNote
           index={2}
           width={300}
-          label="Local-first software emphasizes collaboration, ownership, and data control for users."
+          label="El enfoque local-first prioriza la colaboración, la propiedad y el control de datos."
           animationDelay={600}
           color="#E660A4"
         />
@@ -91,23 +87,16 @@ export const article1: Array<OnboardingBlockOption> = [
     children: (
       <>
         <p>
-          We survey existing approaches to data storage and sharing, ranging
-          from email attachments to web apps to Firebase-backed mobile apps, and
-          we examine the trade-offs of each. We look at Conflict-free Replicated
-          Data Types (CRDTs): data structures that are multi-user from the
-          ground up while also being fundamentally local and private. CRDTs have
-          the potential to be a foundational technology for realizing
-          local-first software.
+          Utilizamos estructuras de datos avanzadas (CRDTs) que permiten el uso
+          multiusuario desde su base, siendo fundamentalmente locales y privadas.
+          Esto significa que puedes trabajar con tu equipo sin exponer información
+          sensible a terceros de manera innecesaria.
         </p>
         <hr className={hr} />
         <p>
-          We share some of our findings from developing local-first software
-          prototypes at <a className={link}>Ink & Switch</a> over the course of
-          several years. These experiments test the viability of CRDTs in
-          practice, and explore the user interface challenges for this new data
-          model. Lastly, we suggest some next steps for moving towards
-          local-first software: for researchers, for app developers, and a
-          startup opportunity for entrepreneurs.
+          Ecodigital ha sido diseñado para ser robusto en la práctica, explorando
+          soluciones de interfaz que facilitan la gestión médica y administrativa
+          sin complicaciones técnicas para el usuario final.
         </p>
       </>
     ),
@@ -117,7 +106,7 @@ export const article1: Array<OnboardingBlockOption> = [
         <CounterNote
           index={3}
           width={300}
-          label="Examining data storage, CRDTs' role, prototypes, and future possibilities."
+          label="Seguridad avanzada y privacidad por diseño en cada interacción."
           animationDelay={900}
           color="#E660A4"
         />
@@ -134,22 +123,17 @@ export const article1: Array<OnboardingBlockOption> = [
     children: (
       <>
         <p>
-          This article has also been <a className={link}>published in PDF</a>{' '}
-          format in the proceedings of the{' '}
-          <a className={link}>Onward! 2019 conference</a>. Please cite it as:
+          Este sistema está optimizado para el manejo de expedientes clínicos y
+          documentación sensible, cumpliendo con los más altos estándares de
+          seguridad digital.
         </p>
         <p className={clsx(quote)}>
-          Martin Kleppmann, Adam Wiggins, Peter van Hardenberg, and Mark
-          McGranaghan. Local-first software: you own your data, in spite of the
-          cloud. 2019 ACM SIGPLAN International Symposium on New Ideas, New
-          Paradigms, and Reflections on Programming and Software (Onward!),
-          October 2019, pages 154–178.{' '}
-          <a className={link}>doi:10.1145/3359591.3359737</a>
+          Ecodigital: Tu consultorio digital, seguro y eficiente.
+          Diseñado para profesionales que valoran la privacidad de sus pacientes.
         </p>
 
         <p>
-          We welcome your feedback: <a className={link}>@inkandswitch</a> or
-          <a className={link}>hello@inkandswitch.com</a>.
+          Agradecemos tu confianza en Ecodigital para la gestión de tu práctica profesional.
         </p>
       </>
     ),
@@ -160,45 +144,40 @@ export const article1: Array<OnboardingBlockOption> = [
     bg: '#E1EFFF',
     children: (
       <>
-        <h2>Contents</h2>
+        <h2>Contenidos del Sistema</h2>
         <h3>
-          Motivation: collaboration and ownership.
+          Gestión integral y propiedad de la información.
           <br />
-          Seven ideals for local-first software
+          Los pilares de Ecodigital
         </h3>
 
         <ol>
-          <li>No spinners: your work at your fingertips</li>
+          <li>Sin esperas: tu trabajo siempre disponible</li>
           <li>
-            <a className={link}>Your work is not trapped on one device</a>
+            <a className={link}>Tus datos no están atrapados en un solo dispositivo</a>
           </li>
           <li>
-            <PageLink>The network is optional</PageLink>
+            <PageLink>La red es opcional para el trabajo diario</PageLink>
           </li>
-          <li>Seamless collaboration with your colleagues</li>
+          <li>Colaboración fluida con tu equipo médico</li>
           <li>
-            <PageLink>The Long Now</PageLink>
+            <PageLink>Disponibilidad a largo plazo</PageLink>
           </li>
-          <li>Security and privacy by default</li>
-          <li>You retain ultimate ownership and control</li>
+          <li>Seguridad y privacidad por defecto</li>
+          <li>Tú conservas la propiedad y el control total</li>
         </ol>
 
-        <h3>Existing data storage and sharing models</h3>
+        <h3>Modelos de gestión eficientes</h3>
         <ul>
-          <li>How application architecture affects user experience</li>
-          <li>Developer infrastructure for building apps</li>
+          <li>Arquitectura centrada en la experiencia del usuario</li>
+          <li>Infraestructura robusta para el manejo de datos</li>
         </ul>
 
-        <h3>Towards a better future</h3>
+        <h3>Hacia un futuro digital seguro</h3>
         <ul>
-          <li>CRDTs as a foundational technology</li>
-          <li>Ink & Switch prototypes</li>
-          <li>How you can help</li>
-        </ul>
-
-        <h3>Conclusions</h3>
-        <ul>
-          <li>Acknowledgments</li>
+          <li>Tecnología local-first como base</li>
+          <li>Herramientas diseñadas para el sector salud</li>
+          <li>Soporte continuo y actualizaciones</li>
         </ul>
       </>
     ),
@@ -209,7 +188,7 @@ export const article1: Array<OnboardingBlockOption> = [
         <CounterNote
           index={4}
           width={400}
-          label="Motivation, ideals, existing models, architecture, CRDTs, prototypes, future, help, conclusions."
+          label="Ideales, seguridad, colaboración y control total de tu consultorio."
           animationDelay={1200}
           color="#E660A4"
         />
@@ -225,37 +204,20 @@ export const article1: Array<OnboardingBlockOption> = [
     bg: '#FFE1E1',
     children: (
       <>
-        <h3>Motivation: collaboration and ownership</h3>
+        <h3>Motivación: Colaboración y Propiedad</h3>
         <p>
-          It’s amazing how easily we can collaborate online nowadays. We use
-          Google Docs to collaborate on documents, spreadsheets and
-          presentations; in Figma we work together on user interface designs; we
-          communicate with colleagues using Slack; we track tasks in Trello; and
-          so on. We depend on these and many other online services, e.g. for
-          taking notes, planning projects or events, remembering contacts, and a
-          whole raft of business uses.
+          Es increíble lo fácil que podemos colaborar hoy en día. En Ecodigital,
+          llevamos esa facilidad al entorno médico, permitiendo que tú y tu equipo
+          gestionen citas, historiales y documentos de manera conjunta y segura.
         </p>
         <p>
-          Today’s cloud apps offer big benefits compared to earlier generations
-          of software: seamless collaboration, and being able to access data
-          from any device. As we run more and more of our lives and work through
-          these cloud apps, they become more and more critical to us. The more
-          time we invest in using one of these apps, the more valuable the data
-          in it becomes to us.
+          A medida que inviertes más tiempo en Ecodigital, la información se vuelve
+          más valiosa. Por eso, nos aseguramos de que esa inversión esté protegida
+          y siempre bajo tu mando, sin dependencias externas críticas.
         </p>
         <p>
-          However, in our research we have spoken to a lot of creative
-          professionals, and in that process we have also learned about the
-          downsides of cloud apps.
-        </p>
-        <p>
-          When you have put a lot of creative energy and effort into making
-          something, you tend to have a deep emotional attachment to it. If you
-          do creative work, this probably seems familiar. (When we say “creative
-          work,” we mean not just visual art, or music, or poetry — many other
-          activities, such as explaining a technical topic, implementing an
-          intricate algorithm, designing a user interface, or figuring out how
-          to lead a team towards some goal are also creative efforts.)
+          Entendemos el valor emocional y profesional de tu trabajo. Cada expediente
+          y cada nota es fruto de tu esfuerzo, y merece el mejor resguardo digital.
         </p>
         <BlogLink />
       </>
@@ -266,7 +228,7 @@ export const article1: Array<OnboardingBlockOption> = [
         <CounterNote
           index={5}
           width={400}
-          label="Online collaboration's benefits but emotional attachment and downsides discussed."
+          label="Beneficios de la colaboración segura y el valor de tu información profesional."
           animationDelay={1500}
           color="#E660A4"
         />

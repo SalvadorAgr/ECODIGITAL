@@ -15,7 +15,7 @@ Ecodigital requiere toolchains de **Node.js** y **Rust**.
 
 ### Instalar Node.js
 
-Se recomienda usar la versión LTS de Node.js. Descarga desde [nodejs.org](https://nodejs.org/en/download).
+Se recomienda usar **Node.js 20 LTS** (por ejemplo `20.20.1`). Descarga desde [nodejs.org](https://nodejs.org/en/download).
 
 O instala [fnm](https://github.com/Schniz/fnm) y ejecuta:
 

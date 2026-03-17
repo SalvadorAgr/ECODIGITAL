@@ -1,4 +1,4 @@
-# Affine Official Workspace Component
+# Ecodigital Official Workspace Component
 
 This component need specific configuration to work properly.
 
